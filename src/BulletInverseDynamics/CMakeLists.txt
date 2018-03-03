@@ -1,13 +1,13 @@
-INCLUDE_DIRECTORIES( ${BULLET_PHYSICS_SOURCE_DIR}/src  )
+include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
 
-SET(BulletInverseDynamics_SRCS
+set(BulletInverseDynamics_SRCS
 	IDMath.cpp
 	MultiBodyTree.cpp
 	details/MultiBodyTreeInitCache.cpp
 	details/MultiBodyTreeImpl.cpp
 )
 
-SET(BulletInverseDynamicsRoot_HDRS
+set(BulletInverseDynamicsRoot_HDRS
 	IDConfig.hpp
 	IDConfigEigen.hpp
 	IDMath.hpp
@@ -15,7 +15,7 @@ SET(BulletInverseDynamicsRoot_HDRS
 	IDErrorMessages.hpp
 	MultiBodyTree.hpp
 )
-SET(BulletInverseDynamicsDetails_HDRS
+set(BulletInverseDynamicsDetails_HDRS
 	details/IDEigenInterface.hpp
 	details/IDMatVec.hpp
 	details/IDLinearMathInterface.hpp
@@ -23,44 +23,47 @@ SET(BulletInverseDynamicsDetails_HDRS
 	details/MultiBodyTreeInitCache.hpp
 )
 
-SET(BulletInverseDynamics_HDRS
+set(BulletInverseDynamics_HDRS
 	${BulletInverseDynamicsRoot_HDRS}
 	${BulletInverseDynamicsDetails_HDRS}
 )
 
 
-ADD_LIBRARY(BulletInverseDynamics ${BulletInverseDynamics_SRCS} ${BulletInverseDynamics_HDRS})
-SET_TARGET_PROPERTIES(BulletInverseDynamics PROPERTIES VERSION ${BULLET_VERSION})
-SET_TARGET_PROPERTIES(BulletInverseDynamics PROPERTIES SOVERSION ${BULLET_VERSION})
-IF (BUILD_SHARED_LIBS)
-  TARGET_LINK_LIBRARIES(BulletInverseDynamics Bullet3Common LinearMath)
-ENDIF (BUILD_SHARED_LIBS)
+add_library(BulletInverseDynamics ${BulletInverseDynamics_SRCS} ${BulletInverseDynamics_HDRS})
+set_target_properties(BulletInverseDynamics PROPERTIES VERSION ${BULLET_VERSION})
+set_target_properties(BulletInverseDynamics PROPERTIES SOVERSION ${BULLET_VERSION})
+if(BUILD_SHARED_LIBS)
+	target_link_libraries(BulletInverseDynamics Bullet3Common LinearMath)
+endif()
 
+if(INSTALL_LIBS)
+	if(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
+		if(APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
+			install(TARGETS BulletInverseDynamics DESTINATION .)
 
-IF (INSTALL_LIBS)
-	IF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
-		#INSTALL of other files requires CMake 2.6
-		IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-			IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-				INSTALL(TARGETS BulletInverseDynamics DESTINATION .)
-			ELSE (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-				INSTALL(TARGETS BulletInverseDynamics RUNTIME DESTINATION bin
-								LIBRARY DESTINATION lib${LIB_SUFFIX}
-								ARCHIVE DESTINATION lib${LIB_SUFFIX})
-				INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-DESTINATION ${INCLUDE_INSTALL_DIR} FILES_MATCHING PATTERN "*.h" PATTERN ".svn" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-				INSTALL(FILES ../btBulletCollisionCommon.h
-DESTINATION ${INCLUDE_INSTALL_DIR}/BulletInverseDynamics)
-			ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-		ENDIF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
+			set_target_properties(BulletInverseDynamics PROPERTIES FRAMEWORK true)
 
-		IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			SET_TARGET_PROPERTIES(BulletInverseDynamics PROPERTIES FRAMEWORK true)
-
-			SET_TARGET_PROPERTIES(BulletInverseDynamics PROPERTIES PUBLIC_HEADER "${BulletInverseDynamicsRoot_HDRS}")
+			set_target_properties(BulletInverseDynamics PROPERTIES PUBLIC_HEADER "${BulletInverseDynamicsRoot_HDRS}")
 			# Have to list out sub-directories manually:
-			SET_PROPERTY(SOURCE ${BulletInverseDynamicsDetails_HDRS} PROPERTY MACOSX_PACKAGE_LOCATION Headers/details)
-
-		ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-	ENDIF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
-ENDIF (INSTALL_LIBS)
+			set_propert(SOURCE ${BulletInverseDynamicsDetails_HDRS} PROPERTY MACOSX_PACKAGE_LOCATION Headers/details)
+		else()
+			install(TARGETS BulletInverseDynamics
+				RUNTIME DESTINATION bin
+				LIBRARY DESTINATION lib${LIB_SUFFIX}
+				ARCHIVE DESTINATION lib${LIB_SUFFIX}
+				)
+			install(
+				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+				DESTINATION "${INCLUDE_INSTALL_DIR}"
+				FILES_MATCHING
+					PATTERN "*.h"
+					PATTERN ".svn" EXCLUDE
+					PATTERN "CMakeFiles" EXCLUDE
+				)
+			install(
+				FILES ../btBulletCollisionCommon.h
+				DESTINATION ${INCLUDE_INSTALL_DIR}/BulletInverseDynamics
+				)
+		endif()
+	endif()
+endif()
