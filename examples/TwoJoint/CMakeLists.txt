@@ -1,15 +1,13 @@
+include_directories(
+	"${BULLET_PHYSICS_SOURCE_DIR}/src"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src"
+)
 
-INCLUDE_DIRECTORIES( 
-		${BULLET_PHYSICS_SOURCE_DIR}/src
-		${BULLET_PHYSICS_SOURCE_DIR}/examples
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src
-  )
-
-
-SET(RobotSimulator_SRCS
-		TwoJointMain.cpp
+set(RobotSimulator_SRCS
+	TwoJointMain.cpp
 		../../examples/SharedMemory/IKTrajectoryHelper.cpp
 		../../examples/SharedMemory/IKTrajectoryHelper.h
 		../../examples/ExampleBrowser/InProcessExampleBrowser.cpp
@@ -39,7 +37,7 @@ SET(RobotSimulator_SRCS
 		../../examples/SharedMemory/PhysicsServerCommandProcessor.cpp
 		../../examples/SharedMemory/PhysicsServerCommandProcessor.h
 		../../examples/SharedMemory/b3PluginManager.cpp
-		
+
 		../../examples/SharedMemory/PhysicsClientSharedMemory.cpp
 		../../examples/SharedMemory/PhysicsClientSharedMemory.h
 		../../examples/SharedMemory/PhysicsClientSharedMemory_C_API.cpp
@@ -70,44 +68,42 @@ SET(RobotSimulator_SRCS
 		../../examples/Importers/ImportURDFDemo/URDF2Bullet.cpp
 		../../examples/Importers/ImportURDFDemo/UrdfParser.cpp
 		../../examples/Importers/ImportURDFDemo/urdfStringSplit.cpp
-		../../examples/Importers/ImportMeshUtility/b3ImportMeshUtility.cpp 
+		../../examples/Importers/ImportMeshUtility/b3ImportMeshUtility.cpp
 		../../examples/MultiThreading/b3PosixThreadSupport.cpp
 		../../examples/MultiThreading/b3Win32ThreadSupport.cpp
 		../../examples/MultiThreading/b3ThreadSupportInterface.cpp
-		
 )
 
-IF(BUILD_CLSOCKET)
- ADD_DEFINITIONS(-DBT_ENABLE_CLSOCKET)
-ENDIF(BUILD_CLSOCKET)
+if(BUILD_CLSOCKET)
+	add_definitions(-DBT_ENABLE_CLSOCKET)
+endif()
 
-IF(WIN32)
-	LINK_LIBRARIES(
+if(WIN32)
+	link_libraries(
 		${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY}
 	)
-	IF(BUILD_ENET)
-		ADD_DEFINITIONS(-DWIN32 -DBT_ENABLE_ENET)
-	ENDIF(BUILD_ENET)
-	IF(BUILD_CLSOCKET)
-		ADD_DEFINITIONS(-DWIN32)
-	ENDIF(BUILD_CLSOCKET)
+	if(BUILD_ENET)
+		add_definitions(-DWIN32 -DBT_ENABLE_ENET)
+	endif()
+	if(BUILD_CLSOCKET)
+		add_definitions(-DWIN32)
+	endif()
+else()
+	if(BUILD_ENET)
+		add_definitions(-DHAS_SOCKLEN_T -DBT_ENABLE_ENET)
+	endif()
 
-ELSE(WIN32)
-	IF(BUILD_ENET)
-		ADD_DEFINITIONS(-DHAS_SOCKLEN_T -DBT_ENABLE_ENET)
-	ENDIF(BUILD_ENET)
-
-	IF(BUILD_CLSOCKET)	
-		ADD_DEFINITIONS(${OSDEF})
-	ENDIF(BUILD_CLSOCKET)
-ENDIF(WIN32)
+	if(BUILD_CLSOCKET)
+		add_definitions(${OSDEF})
+	endif()
+endif()
 
 
-IF(BUILD_ENET)
-	set(RobotSimulator_SRCS ${RobotSimulator_SRCS} 
-		../../examples/SharedMemory/PhysicsClientUDP.cpp
+if(BUILD_ENET)
+	set(RobotSimulator_SRCS ${RobotSimulator_SRCS}
+			../../examples/SharedMemory/PhysicsClientUDP.cpp
 		../../examples/SharedMemory/PhysicsClientUDP_C_API.cpp
-		../../examples/SharedMemory/PhysicsClientUDP.h		
+		../../examples/SharedMemory/PhysicsClientUDP.h
 		../../examples/SharedMemory/PhysicsClientUDP_C_API.h
 		../../examples/ThirdPartyLibs/enet/win32.c
 		../../examples/ThirdPartyLibs/enet/unix.c
@@ -119,61 +115,54 @@ IF(BUILD_ENET)
 		../../examples/ThirdPartyLibs/enet/peer.c
 		../../examples/ThirdPartyLibs/enet/protocol.c
 	)
-ENDIF(BUILD_ENET)
+endif()
 
-IF(BUILD_CLSOCKET)
+if(BUILD_CLSOCKET)
 	set(RobotSimulator_SRCS ${RobotSimulator_SRCS}
-		 ../../examples/SharedMemory/PhysicsClientTCP.cpp
-                 ../../examples/SharedMemory/PhysicsClientTCP.h
-                 ../../examples/SharedMemory/PhysicsClientTCP_C_API.cpp
-                 ../../examples/SharedMemory/PhysicsClientTCP_C_API.h
-		 ../../examples/ThirdPartyLibs/clsocket/src/SimpleSocket.cpp
-		 ../../examples/ThirdPartyLibs/clsocket/src/ActiveSocket.cpp
-		 ../../examples/ThirdPartyLibs/clsocket/src/PassiveSocket.cpp
+		../../examples/SharedMemory/PhysicsClientTCP.cpp
+		../../examples/SharedMemory/PhysicsClientTCP.h
+		../../examples/SharedMemory/PhysicsClientTCP_C_API.cpp
+		../../examples/SharedMemory/PhysicsClientTCP_C_API.h
+		../../examples/ThirdPartyLibs/clsocket/src/SimpleSocket.cpp
+		../../examples/ThirdPartyLibs/clsocket/src/ActiveSocket.cpp
+		../../examples/ThirdPartyLibs/clsocket/src/PassiveSocket.cpp
 	)
-ENDIF()
-
+endif()
 
 #some code to support OpenGL and Glew cross platform
-IF (WIN32)
-	INCLUDE_DIRECTORIES(
-			${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
+if(WIN32)
+	include_directories(
+		"${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows"
 	)
-	ADD_DEFINITIONS(-DGLEW_STATIC)
-	LINK_LIBRARIES( ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} )
-ELSE(WIN32)
-	IF(APPLE)
+	add_definitions(-DGLEW_STATIC)
+	link_libraries(${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+else()
+	if(APPLE)
 		find_library(COCOA NAMES Cocoa)
-		MESSAGE(${COCOA})
+		message("Cocoa library: ${COCOA}")
 		link_libraries(${COCOA} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
-
-	ELSE(APPLE)
-		INCLUDE_DIRECTORIES(
-				${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
+	else()
+		include_directories(
+			"${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows"
 		)
-		ADD_DEFINITIONS("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
-		ADD_DEFINITIONS("-DGLEW_STATIC")
-		ADD_DEFINITIONS("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
+		add_definitions("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
+		add_definitions("-DGLEW_STATIC")
+		add_definitions("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
 
-		LINK_LIBRARIES(  pthread ${DL} )
-	ENDIF(APPLE)
-ENDIF(WIN32)
-
-
-ADD_EXECUTABLE(App_TwoJoint  ${RobotSimulator_SRCS})
-
-SET_TARGET_PROPERTIES(App_TwoJoint PROPERTIES VERSION ${BULLET_VERSION})
-SET_TARGET_PROPERTIES(App_TwoJoint PROPERTIES DEBUG_POSTFIX "_d")
+		link_libraries(pthread ${DL})
+	endif()
+endif()
 
 
-IF(WIN32)
-	IF(BUILD_ENET OR BUILD_CLSOCKET)
-		TARGET_LINK_LIBRARIES(App_TwoJoint ws2_32 )
-	ENDIF(BUILD_ENET OR BUILD_CLSOCKET)
-ENDIF(WIN32)
+add_executable(App_TwoJoint ${RobotSimulator_SRCS})
 
+set_target_properties(App_TwoJoint PROPERTIES VERSION ${BULLET_VERSION})
+set_target_properties(App_TwoJoint PROPERTIES DEBUG_POSTFIX "_d")
 
+if(WIN32)
+	if(BUILD_ENET OR BUILD_CLSOCKET)
+		target_link_libraries(App_TwoJoint ws2_32)
+	endif()
+endif()
 
-TARGET_LINK_LIBRARIES(App_TwoJoint BulletExampleBrowserLib BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath OpenGLWindow gwen BussIK Bullet3Common)
-
-
+target_link_libraries(App_TwoJoint BulletExampleBrowserLib BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath OpenGLWindow gwen BussIK Bullet3Common)
