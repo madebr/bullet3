@@ -327,16 +327,7 @@ if(APPLE)
 endif()
 option(BUILD_OPENGL3_DEMOS "Set when you want to build Bullet 3 OpenGL3+ demos" ${OPENGL3_DEMOS_DEFAULT})
 
-if("${CMAKE_GENERATOR}" MATCHES "Unix Makefiles")
-	option(INSTALL_LIBS "Set when you want to install libraries" ON)
-else()
-	if(APPLE AND FRAMEWORK)
-		option(INSTALL_LIBS "Set when you want to install libraries" ON)
-	else()
-		# by default, don't enable the 'INSTALL' option for Xcode and MSVC projectfiles
-		option(INSTALL_LIBS "Set when you want to install libraries" OFF)
-	endif()
-endif()
+option(INSTALL_LIBS "Set when you want to install libraries" ON)
 
 subdirs(src)
 
