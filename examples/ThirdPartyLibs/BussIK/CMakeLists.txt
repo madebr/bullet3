@@ -29,5 +29,5 @@ set(BussIK_HDRS
 
 add_library(BussIK
 	${BussIK_SRCS}
-	${BussIK_HDRS
+	${BussIK_HDRS}
 )
