@@ -1,50 +1,51 @@
-INCLUDE_DIRECTORIES(
-	${BULLET_PHYSICS_SOURCE_DIR}/src
+include_directories(
+	"${BULLET_PHYSICS_SOURCE_DIR}/src"
 )
 
-ADD_LIBRARY(
-BulletInverseDynamicsUtils
-CloneTreeCreator.cpp
-CoilCreator.cpp
-MultiBodyTreeCreator.cpp
-btMultiBodyTreeCreator.cpp
-DillCreator.cpp
-MultiBodyTreeDebugGraph.cpp
-invdyn_bullet_comparison.cpp
-IDRandomUtil.cpp
-RandomTreeCreator.cpp
-SimpleTreeCreator.cpp
-MultiBodyNameMap.cpp
-User2InternalIndex.cpp
+add_library(BulletInverseDynamicsUtils
+	CloneTreeCreator.cpp
+	CoilCreator.cpp
+	MultiBodyTreeCreator.cpp
+	btMultiBodyTreeCreator.cpp
+	DillCreator.cpp
+	MultiBodyTreeDebugGraph.cpp
+	invdyn_bullet_comparison.cpp
+	IDRandomUtil.cpp
+	RandomTreeCreator.cpp
+	SimpleTreeCreator.cpp
+	MultiBodyNameMap.cpp
+	User2InternalIndex.cpp
 )
 
-SET_TARGET_PROPERTIES(BulletInverseDynamicsUtils PROPERTIES VERSION ${BULLET_VERSION})
-SET_TARGET_PROPERTIES(BulletInverseDynamicsUtils PROPERTIES SOVERSION ${BULLET_VERSION})
+set_target_properties(BulletInverseDynamicsUtils PROPERTIES VERSION ${BULLET_VERSION})
+set_target_properties(BulletInverseDynamicsUtils PROPERTIES SOVERSION ${BULLET_VERSION})
 
-IF (BUILD_SHARED_LIBS)
-	TARGET_LINK_LIBRARIES(BulletInverseDynamicsUtils BulletInverseDynamics BulletDynamics BulletCollision Bullet3Common LinearMath)
-ENDIF (BUILD_SHARED_LIBS)
+if(BUILD_SHARED_LIBS)
+	target_link_libraries(BulletInverseDynamicsUtils BulletInverseDynamics BulletDynamics BulletCollision Bullet3Common LinearMath)
+endif()
 
-IF (INSTALL_EXTRA_LIBS)
-	IF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
-		#FILES_MATCHING requires CMake 2.6
-		IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
-			IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-				INSTALL(TARGETS BulletInverseDynamicsUtils  DESTINATION .)
-			ELSE (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-				INSTALL(TARGETS BulletInverseDynamicsUtils
-                                        RUNTIME DESTINATION bin
-                                        LIBRARY DESTINATION lib${LIB_SUFFIX}
-                                        ARCHIVE DESTINATION lib${LIB_SUFFIX})
-				INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-DESTINATION ${INCLUDE_INSTALL_DIR} FILES_MATCHING PATTERN "*.h"  PATTERN
-".svn" EXCLUDE PATTERN "CMakeFiles" EXCLUDE)
-			ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-		ENDIF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.5)
+if(INSTALL_EXTRA_LIBS)
+	if(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
+		if(APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
+			install(TARGETS BulletInverseDynamicsUtils  DESTINATION .)
 
-		IF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-			SET_TARGET_PROPERTIES(BulletInverseDynamicsUtils  PROPERTIES FRAMEWORK true)
-			SET_TARGET_PROPERTIES(BulletInverseDynamicsUtils PROPERTIES PUBLIC_HEADER "BulletInverseDynamicsUtilsCommon.h" )
-		ENDIF (APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
-	ENDIF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
-ENDIF (INSTALL_EXTRA_LIBS)
+			set_target_properties(BulletInverseDynamicsUtils  PROPERTIES FRAMEWORK true)
+			set_target_properties(BulletInverseDynamicsUtils PROPERTIES PUBLIC_HEADER "BulletInverseDynamicsUtilsCommon.h" )
+		else()
+			install(
+				TARGETS BulletInverseDynamicsUtils
+				RUNTIME DESTINATION bin
+				LIBRARY DESTINATION lib${LIB_SUFFIX}
+				ARCHIVE DESTINATION lib${LIB_SUFFIX}
+			)
+			install(
+				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+				DESTINATION ${INCLUDE_INSTALL_DIR}
+				FILES_MATCHING
+					PATTERN "*.h"
+					PATTERN ".svn" EXCLUDE
+					PATTERN "CMakeFiles" EXCLUDE
+			)
+		endif()
+	endif()
+endif()
