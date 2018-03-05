@@ -1,103 +1,92 @@
 # App_BasicExample is a minimal sample creating, stepping and deleting a Bullet dynamics world
 
-INCLUDE_DIRECTORIES(
-${BULLET_PHYSICS_SOURCE_DIR}/src
+include_directories(
+	"${BULLET_PHYSICS_SOURCE_DIR}/src"
 )
 
-LINK_LIBRARIES(
- BulletDynamics BulletCollision LinearMath
+link_libraries(
+	BulletDynamics
+	BulletCollision
+	LinearMath
 )
 
-IF (WIN32)
-	ADD_EXECUTABLE(App_BasicExample
+if(WIN32)
+	add_executable(App_BasicExample
 		BasicExample.cpp
 		main.cpp
-		${BULLET_PHYSICS_SOURCE_DIR}/build3/bullet.rc
+		"${BULLET_PHYSICS_SOURCE_DIR}/build3/bullet.rc"
 	)
-ELSE()
-	ADD_EXECUTABLE(App_BasicExample
+else()
+	add_executable(App_BasicExample
 		BasicExample.cpp
 		main.cpp
 	)
-ENDIF()
+endif()
 
-
-
-
-IF (INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
-			SET_TARGET_PROPERTIES(App_BasicExample PROPERTIES  DEBUG_POSTFIX "_Debug")
-			SET_TARGET_PROPERTIES(App_BasicExample PROPERTIES  MINSIZEREL_POSTFIX "_MinsizeRel")
-			SET_TARGET_PROPERTIES(App_BasicExample PROPERTIES  RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
+if(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
+	set_target_properties(App_BasicExample PROPERTIES DEBUG_POSTFIX "_Debug")
+	set_target_properties(App_BasicExample PROPERTIES MINSIZEREL_POSTFIX "_MinsizeRel")
+	set_target_properties(App_BasicExample PROPERTIES RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
 ENDIF(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
-
-
-
 
 
 #################
 # Standalone BasicExampleGui using OpenGL (but not the example browser)
 
-
-INCLUDE_DIRECTORIES(
-        ${BULLET_PHYSICS_SOURCE_DIR}/src
-        ${BULLET_PHYSICS_SOURCE_DIR}/btgui
-        ${BULLET_PHYSICS_SOURCE_DIR}/examples
-        ${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad
+include_directories(
+        "${BULLET_PHYSICS_SOURCE_DIR}/src"
+        "${BULLET_PHYSICS_SOURCE_DIR}/btgui"
+        "${BULLET_PHYSICS_SOURCE_DIR}/examples"
+        "${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad"
 )
 
-
-SET(AppBasicExampleGui_SRCS
+set(AppBasicExampleGui_SRCS
 	BasicExample.cpp
-        ${BULLET_PHYSICS_SOURCE_DIR}/build3/bullet.rc
+        "${BULLET_PHYSICS_SOURCE_DIR}/build3/bullet.rc"
 	../StandaloneMain/main_opengl_single_example.cpp
         ../ExampleBrowser/OpenGLGuiHelper.cpp
         ../ExampleBrowser/GL_ShapeDrawer.cpp
         ../ExampleBrowser/CollisionShape2TriangleMesh.cpp
-		../Utils/b3Clock.cpp
+	../Utils/b3Clock.cpp
 )
 
 #this define maps StandaloneExampleCreateFunc to the right 'CreateFunc'
-ADD_DEFINITIONS(-DB3_USE_STANDALONE_EXAMPLE)
+add_definitions(-DB3_USE_STANDALONE_EXAMPLE)
 
-LINK_LIBRARIES(
+link_libraries(
         BulletDynamics BulletCollision LinearMath OpenGLWindow Bullet3Common 
 )
 
 #some code to support OpenGL and Glew cross platform
-IF (WIN32)
-        INCLUDE_DIRECTORIES(
-             ${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
+if(WIN32)
+        include_directories(
+             "${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows"
         )
-        ADD_DEFINITIONS(-DGLEW_STATIC)
-	LINK_LIBRARIES( ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} )
-ELSE(WIN32)
-        IF(APPLE)
-                find_library(COCOA NAMES Cocoa)
-                MESSAGE(${COCOA})
-                link_libraries(${COCOA} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+        add_definitions(-DGLEW_STATIC)
+	link_libraries(${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+else()
+	if(APPLE)
+		find_library(COCOA NAMES Cocoa REQUIRED)
+		message("Cocoa library: ${COCOA}")
+		link_libraries(${COCOA} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+        else()
+		include_directories(
+			"${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows"
+		)
+		add_definitions("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
+		add_definitions("-DGLEW_STATIC")
+		add_definitions("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
 
-        ELSE(APPLE)
-                INCLUDE_DIRECTORIES(
-                        ${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
-                )
-                ADD_DEFINITIONS("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
-                ADD_DEFINITIONS("-DGLEW_STATIC")
-                ADD_DEFINITIONS("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
+		link_libraries( pthread ${DL})
+	endif()
+endif()
 
-                LINK_LIBRARIES(  pthread ${DL} )
-        ENDIF(APPLE)
-ENDIF(WIN32)
-
-
-ADD_EXECUTABLE(AppBasicExampleGui
-                ${AppBasicExampleGui_SRCS}
+add_executable(AppBasicExampleGui
+	${AppBasicExampleGui_SRCS}
 )
 
-
-IF (INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
-                        SET_TARGET_PROPERTIES(AppBasicExampleGui PROPERTIES  DEBUG_POSTFIX "_Debug")
-                        SET_TARGET_PROPERTIES(AppBasicExampleGui PROPERTIES  MINSIZEREL_POSTFIX "_MinsizeRel")
-                        SET_TARGET_PROPERTIES(AppBasicExampleGui PROPERTIES  RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
-ENDIF(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
-
-
+if(INTERNAL_ADD_POSTFIX_EXECUTABLE_NAMES)
+	set_target_properties(AppBasicExampleGui PROPERTIES DEBUG_POSTFIX "_Debug")
+	set_target_properties(AppBasicExampleGui PROPERTIES MINSIZEREL_POSTFIX "_MinsizeRel")
+	set_target_properties(AppBasicExampleGui PROPERTIES RELWITHDEBINFO_POSTFIX "_RelWithDebugInfo")
+endif()
