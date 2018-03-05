@@ -1,97 +1,82 @@
-INCLUDE_DIRECTORIES( 
-		${BULLET_PHYSICS_SOURCE_DIR}/src
-		${BULLET_PHYSICS_SOURCE_DIR}/examples
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src
-  )
+include_directories(
+	"${BULLET_PHYSICS_SOURCE_DIR}/src"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src"
+)
 
-
-SET(RobotSimulator_SRCS
-RobotSimulatorMain.cpp
+set(RobotSimulator_SRCS
+	RobotSimulatorMain.cpp
 	b3RobotSimulatorClientAPI.cpp
-	b3RobotSimulatorClientAPI.h	
+	b3RobotSimulatorClientAPI.h
 	b3RobotSimulatorClientAPI_NoGUI.cpp
-	b3RobotSimulatorClientAPI_NoGUI.h	
+	b3RobotSimulatorClientAPI_NoGUI.h
 	MinitaurSetup.cpp
 	MinitaurSetup.h
 	../../examples/ExampleBrowser/InProcessExampleBrowser.cpp
 	../../examples/SharedMemory/PhysicsServerExample.cpp
 	../../examples/SharedMemory/PhysicsServerExampleBullet2.cpp
-	../../examples/SharedMemory/SharedMemoryInProcessPhysicsC_API.cpp		
-)	
+	../../examples/SharedMemory/SharedMemoryInProcessPhysicsC_API.cpp
+)
 
+if(BUILD_CLSOCKET)
+	add_definitions(-DBT_ENABLE_CLSOCKET)
+endif()
 
-
-IF(BUILD_CLSOCKET)
- ADD_DEFINITIONS(-DBT_ENABLE_CLSOCKET)
-ENDIF(BUILD_CLSOCKET)
-
-IF(WIN32)
-	LINK_LIBRARIES(
+if(WIN32)
+	link_libraries(
 		${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY}
 	)
-ENDIF(WIN32)
-
-
+endif()
 
 #some code to support OpenGL and Glew cross platform
-IF (WIN32)
-	INCLUDE_DIRECTORIES(
-			${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
+if(WIN32)
+	include_directories(
+		${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
 	)
-	ADD_DEFINITIONS(-DGLEW_STATIC)
-	LINK_LIBRARIES( ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY} )
-ELSE(WIN32)
-	IF(APPLE)
+	add_definitions(-DGLEW_STATIC)
+	link_libraries(${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
+else()
+	if(APPLE)
 		find_library(COCOA NAMES Cocoa)
-		MESSAGE(${COCOA})
+		message("Cocoa library: ${COCOA}")
 		link_libraries(${COCOA} ${OPENGL_gl_LIBRARY} ${OPENGL_glu_LIBRARY})
-
-	ELSE(APPLE)
-		INCLUDE_DIRECTORIES(
-				${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
+	else()
+		include_directories(
+		${BULLET_PHYSICS_SOURCE_DIR}/btgui/OpenGLWindow/GlewWindows
 		)
-		ADD_DEFINITIONS("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
-		ADD_DEFINITIONS("-DGLEW_STATIC")
-		ADD_DEFINITIONS("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
-
-		LINK_LIBRARIES(  pthread ${DL} )
-	ENDIF(APPLE)
-ENDIF(WIN32)
-
-
-ADD_EXECUTABLE(App_RobotSimulator  ${RobotSimulator_SRCS})
-
-SET_TARGET_PROPERTIES(App_RobotSimulator PROPERTIES VERSION ${BULLET_VERSION})
-SET_TARGET_PROPERTIES(App_RobotSimulator PROPERTIES DEBUG_POSTFIX "_d")
-SET_TARGET_PROPERTIES(App_RobotSimulator PROPERTIES COMPILE_DEFINITIONS "B3_USE_ROBOTSIM_GUI")
+		add_definitions("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
+		add_definitions("-DGLEW_STATIC")
+		add_definitions("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
+		link_libraries(pthread ${DL})
+	endif()
+endif()
 
 
+add_executable(App_RobotSimulator  ${RobotSimulator_SRCS})
 
-IF(WIN32)
-	IF(BUILD_ENET OR BUILD_CLSOCKET)
-		TARGET_LINK_LIBRARIES(App_RobotSimulator ws2_32 )
-	ENDIF(BUILD_ENET OR BUILD_CLSOCKET)
-ENDIF(WIN32)
+set_target_properties(App_RobotSimulator PROPERTIES VERSION ${BULLET_VERSION})
+set_target_properties(App_RobotSimulator PROPERTIES DEBUG_POSTFIX "_d")
+set_target_properties(App_RobotSimulator PROPERTIES COMPILE_DEFINITIONS "B3_USE_ROBOTSIM_GUI")
 
-TARGET_LINK_LIBRARIES(App_RobotSimulator BulletRobotics BulletExampleBrowserLib BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath OpenGLWindow gwen Bullet3Common)
+if(WIN32)
+	if(BUILD_ENET OR BUILD_CLSOCKET)
+		target_link_libraries(App_RobotSimulator ws2_32 )
+	endif()
+endif()
 
+target_link_libraries(App_RobotSimulator BulletRobotics BulletExampleBrowserLib BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath OpenGLWindow gwen Bullet3Common)
 
-
-
-
-
-
-INCLUDE_DIRECTORIES( 
-		${BULLET_PHYSICS_SOURCE_DIR}/src
-		${BULLET_PHYSICS_SOURCE_DIR}/examples
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include
-		${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src
+include_directories(
+	"${BULLET_PHYSICS_SOURCE_DIR}/src"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/enet/include"
+	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/clsocket/src"
   )
 
-SET(RobotSimulator_NoGUI_SRCS
+set(RobotSimulator_NoGUI_SRCS
 	RobotSimulatorMain.cpp
 	b3RobotSimulatorClientAPI_NoGUI.cpp
 	b3RobotSimulatorClientAPI_NoGUI.h	
@@ -99,32 +84,19 @@ SET(RobotSimulator_NoGUI_SRCS
 	MinitaurSetup.h
 )
 
-ADD_EXECUTABLE(App_RobotSimulator_NoGUI  ${RobotSimulator_NoGUI_SRCS})
+add_executable(App_RobotSimulator_NoGUI ${RobotSimulator_NoGUI_SRCS})
 
-SET_TARGET_PROPERTIES(App_RobotSimulator_NoGUI PROPERTIES VERSION ${BULLET_VERSION})
-SET_TARGET_PROPERTIES(App_RobotSimulator_NoGUI PROPERTIES DEBUG_POSTFIX "_d")
+set_target_properties(App_RobotSimulator_NoGUI PROPERTIES VERSION ${BULLET_VERSION})
+set_target_properties(App_RobotSimulator_NoGUI PROPERTIES DEBUG_POSTFIX "_d")
 
+if(WIN32)
+	if(BUILD_ENET OR BUILD_CLSOCKET)
+		target_link_libraries(App_RobotSimulator_NoGUI ws2_32)
+	endif()
+else()
+	if(NOT APPLE)
+		target_link_libraries( App_RobotSimulator_NoGUI pthread ${DL})
+	endif()
+endif()
 
-IF(WIN32)
-	IF(BUILD_ENET OR BUILD_CLSOCKET)
-		TARGET_LINK_LIBRARIES(App_RobotSimulator_NoGUI ws2_32 )
-	ENDIF(BUILD_ENET OR BUILD_CLSOCKET)
-ELSE()
-	IF(APPLE)
-	ELSE(APPLE)
-		TARGET_LINK_LIBRARIES( App_RobotSimulator_NoGUI pthread ${DL} )
-	ENDIF(APPLE)
-ENDIF(WIN32)
-
-TARGET_LINK_LIBRARIES(App_RobotSimulator_NoGUI BulletRobotics BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath Bullet3Common)
-
-
-
-
-
-
-
-
-
-
-
+target_link_libraries(App_RobotSimulator_NoGUI BulletRobotics BulletFileLoader BulletWorldImporter BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamicsUtils BulletInverseDynamics LinearMath Bullet3Common)
