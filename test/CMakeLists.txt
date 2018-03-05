@@ -1,7 +1,13 @@
-IF(BUILD_BULLET3)
-	#SUBDIRS( TestBullet3OpenCL )
-	SUBDIRS(  InverseDynamics SharedMemory )
-ENDIF(BUILD_BULLET3)
+if(BUILD_BULLET3)
+	#subdirs(TestBullet3OpenCL)
+	subdirs(
+		InverseDynamics
+		SharedMemory
+	)
+endif()
 
-SUBDIRS(  gtest-1.7.0 collision BulletDynamics )
-
+subdirs(
+	gtest-1.7.0
+	collision
+	BulletDynamics
+)
