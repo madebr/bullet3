@@ -356,11 +356,7 @@ if(INSTALL_LIBS)
 	endif()
 endif()
 
-if(BUILD_OPENGL3_DEMOS)
-	if(EXISTS "${BULLET_PHYSICS_SOURCE_DIR}/Demos3" AND IS_DIRECTORY "${BULLET_PHYSICS_SOURCE_DIR}/Demos3")
-		subdirs(Demos3)
-	endif()
-else()
+if(NOT BUILD_OPENGL3_DEMOS)
 	add_definitions(-DNO_OPENGL3)
 endif()
 
