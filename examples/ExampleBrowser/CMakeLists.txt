@@ -177,8 +177,6 @@ set(BulletExampleBrowser_SRCS
 	../BasicDemo/BasicExample.h
 	../InverseDynamics/InverseDynamicsExample.cpp
 	../InverseDynamics/InverseDynamicsExample.h
-	../InverseKinematics/InverseKinematicsExample.cpp
-	../InverseKinematics/InverseKinematicsExample.h
 	../ForkLift/ForkLiftDemo.cpp
 	../ForkLift/ForkLiftDemo.h
 	../MultiThreadedDemo/MultiThreadedDemo.cpp
@@ -353,6 +351,11 @@ add_executable(App_ExampleBrowser
 	ExampleEntries.h
 	${ExtendedTutorialsSources}
 	${BulletExampleBrowser_SRCS}
+)
+
+target_link_libraries(App_ExampleBrowser
+	PUBLIC
+		InverseKinematicsExample
 )
 
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/data" )
