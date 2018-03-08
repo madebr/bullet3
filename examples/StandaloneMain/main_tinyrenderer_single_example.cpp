@@ -64,8 +64,8 @@ struct TinyRendererGUIHelper : public GUIHelperInterface
 
 	TinyRendererGUIHelper( int swWidth, int swHeight) 
 		: m_upAxis(1),
-	 m_swWidth(swWidth),
-    m_swHeight(swHeight),
+	m_swWidth(swWidth),
+	m_swHeight(swHeight),
 	m_rgbColorBuffer(swWidth,swHeight,TGAImage::RGB),
 	m_colObjUniqueIndex(0)
 	{
