@@ -68,16 +68,6 @@ set(BulletRobotics_SRCS
 
 	../../examples/ThirdPartyLibs/stb_image/stb_image.cpp
 
-	../../examples/ThirdPartyLibs/BussIK/Jacobian.cpp
-	../../examples/ThirdPartyLibs/BussIK/LinearR2.cpp
-	../../examples/ThirdPartyLibs/BussIK/LinearR3.cpp
-	../../examples/ThirdPartyLibs/BussIK/LinearR4.cpp
-	../../examples/ThirdPartyLibs/BussIK/MatrixRmn.cpp
-	../../examples/ThirdPartyLibs/BussIK/Misc.cpp
-	../../examples/ThirdPartyLibs/BussIK/Node.cpp
-	../../examples/ThirdPartyLibs/BussIK/Tree.cpp
-	../../examples/ThirdPartyLibs/BussIK/VectorRn.cpp
-
 	../../examples/Importers/ImportColladaDemo/LoadMeshFromCollada.cpp
 	../../examples/Importers/ImportObjDemo/LoadMeshFromObj.cpp
 	../../examples/Importers/ImportObjDemo/Wavefront2GLInstanceGraphicsShape.cpp
@@ -163,9 +153,7 @@ add_library(BulletRobotics ${BulletRobotics_SRCS})
 set_target_properties(BulletRobotics PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(BulletRobotics PROPERTIES SOVERSION ${BULLET_VERSION})
 
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(BulletRobotics BulletInverseDynamicsUtils BulletWorldImporter BulletFileLoader BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamics LinearMath Bullet3Common)
-endif()
+target_link_libraries(BulletRobotics BulletInverseDynamicsUtils BulletWorldImporter BulletFileLoader BulletSoftBody BulletDynamics BulletCollision BulletInverseDynamics LinearMath Bullet3Common BussIK)
 
 if(INSTALL_EXTRA_LIBS)
 	install(
