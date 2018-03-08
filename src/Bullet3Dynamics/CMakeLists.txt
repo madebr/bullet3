@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(Bullet3Dynamics_SRCS
 	b3CpuRigidBodyPipeline.cpp
 	ConstraintSolver/b3FixedConstraint.cpp
@@ -26,10 +24,21 @@ set(Bullet3Dynamics_HDRS
 	shared/b3IntegrateTransforms.h
 )
 
-add_library(Bullet3Dynamics ${Bullet3Dynamics_SRCS} ${Bullet3Dynamics_HDRS})
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(Bullet3Dynamics Bullet3Collision)
-endif()
+add_library(Bullet3Dynamics
+	${Bullet3Dynamics_HDRS}
+	${Bullet3Dynamics_SRCS}
+)
+
+target_include_directories(Bullet3Dynamics
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+
+target_link_libraries(Bullet3Dynamics
+	PUBLIC
+		Bullet3Collision
+)
+
 set_target_properties(Bullet3Dynamics PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(Bullet3Dynamics PROPERTIES SOVERSION ${BULLET_VERSION})
 

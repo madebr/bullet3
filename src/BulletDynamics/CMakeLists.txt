@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(BulletDynamics_SRCS
 	Character/btKinematicCharacterController.cpp
 	ConstraintSolver/btConeTwistConstraint.cpp
@@ -129,14 +127,22 @@ set(BulletDynamics_HDRS
 	${MLCPSolvers_HDRS}
 )
 
-add_library(BulletDynamics ${BulletDynamics_SRCS} ${BulletDynamics_HDRS})
+add_library(BulletDynamics
+${BulletDynamics_SRCS}
+${BulletDynamics_HDRS})
+
+target_include_directories(BulletDynamics
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+target_link_libraries(BulletDynamics
+	PUBLIC
+		LinearMath
+		BulletCollision
+)
 
 set_target_properties(BulletDynamics PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(BulletDynamics PROPERTIES SOVERSION ${BULLET_VERSION})
-
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(BulletDynamics BulletCollision LinearMath)
-endif()
 
 if(INSTALL_LIBS)
 	if(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
@@ -159,7 +165,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -167,11 +173,11 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 			install(
 				FILES ../btBulletDynamicsCommon.h
 				DESTINATION ${INCLUDE_INSTALL_DIR}/BulletDynamics
-				)
+			)
 		endif()
 	endif()
 endif()

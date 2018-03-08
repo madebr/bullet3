@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(BulletInverseDynamics_SRCS
 	IDMath.cpp
 	MultiBodyTree.cpp
@@ -15,6 +13,7 @@ set(BulletInverseDynamicsRoot_HDRS
 	IDErrorMessages.hpp
 	MultiBodyTree.hpp
 )
+
 set(BulletInverseDynamicsDetails_HDRS
 	details/IDEigenInterface.hpp
 	details/IDMatVec.hpp
@@ -28,13 +27,24 @@ set(BulletInverseDynamics_HDRS
 	${BulletInverseDynamicsDetails_HDRS}
 )
 
+add_library(BulletInverseDynamics
+	${BulletInverseDynamics_HDRS}
+	${BulletInverseDynamics_SRCS}
+)
 
-add_library(BulletInverseDynamics ${BulletInverseDynamics_SRCS} ${BulletInverseDynamics_HDRS})
+target_include_directories(BulletInverseDynamics
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+
+target_link_libraries(BulletInverseDynamics
+	PUBLIC
+		LinearMath
+		Bullet3Common
+)
+
 set_target_properties(BulletInverseDynamics PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(BulletInverseDynamics PROPERTIES SOVERSION ${BULLET_VERSION})
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(BulletInverseDynamics Bullet3Common LinearMath)
-endif()
 
 if(INSTALL_LIBS)
 	if(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
@@ -51,7 +61,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -59,11 +69,11 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 			install(
 				FILES ../btBulletCollisionCommon.h
 				DESTINATION ${INCLUDE_INSTALL_DIR}/BulletInverseDynamics
-				)
+			)
 		endif()
 	endif()
 endif()

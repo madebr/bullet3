@@ -1,7 +1,3 @@
-include_directories(
-	"${BULLET_PHYSICS_SOURCE_DIR}/src"
-)
-
 set(Bullet3Collision_SRCS
 	BroadPhaseCollision/b3DynamicBvh.cpp
 	BroadPhaseCollision/b3DynamicBvhBroadphase.cpp
@@ -57,10 +53,21 @@ set(Bullet3Collision_HDRS
 	${Bullet3CollisionNarrowPhase_HDRS}
 )
 
-add_library(Bullet3Collision ${Bullet3Collision_SRCS} ${Bullet3Collision_HDRS})
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(Bullet3Collision Bullet3Geometry)
-endif()
+add_library(Bullet3Collision
+	${Bullet3Collision_SRCS}
+	${Bullet3Collision_HDRS}
+)
+
+target_include_directories(Bullet3Collision
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+
+target_link_libraries(Bullet3Collision
+	PUBLIC
+		Bullet3Geometry
+)
+
 set_target_properties(Bullet3Collision PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(Bullet3Collision PROPERTIES SOVERSION ${BULLET_VERSION})
 
@@ -80,7 +87,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -88,7 +95,7 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 		endif()
 	endif()
 endif()

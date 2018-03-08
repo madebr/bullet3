@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(Bullet3Common_SRCS
 	b3AlignedAllocator.cpp
 	b3Vector3.cpp
@@ -31,7 +29,15 @@ set(Bullet3Common_HDRS
 	shared/b3Quat.h
 )
 
-add_library(Bullet3Common ${Bullet3Common_SRCS} ${Bullet3Common_HDRS})
+add_library(Bullet3Common
+	${Bullet3Common_HDRS}
+	${Bullet3Common_SRCS}
+)
+
+target_include_directories(Bullet3Common
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
 
 set_target_properties(Bullet3Common PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(Bullet3Common PROPERTIES SOVERSION ${BULLET_VERSION})
@@ -49,7 +55,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -57,7 +63,7 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 		endif()
 	endif()
 endif()

@@ -1,23 +1,21 @@
-if(BUILD_BULLET3)
-	subdirs(
-		Bullet3OpenCL
-		Bullet3Serialize/Bullet2FileLoader
-		Bullet3Dynamics
-		Bullet3Collision
-		Bullet3Geometry
-		)
-endif()
-
-
 subdirs(
+	LinearMath
+	BulletCollision
+	Bullet3Common
+	BulletDynamics
 	BulletInverseDynamics
 	BulletSoftBody
-	BulletCollision
-	BulletDynamics
-	LinearMath
-	Bullet3Common
-	)
+)
 
+if(BUILD_BULLET3)
+	subdirs(
+		Bullet3Geometry
+		Bullet3Collision
+		Bullet3Serialize/Bullet2FileLoader
+		Bullet3Dynamics
+		Bullet3OpenCL
+	)
+endif()
 
 if(INSTALL_LIBS)
 	if(APPLE AND BUILD_SHARED_LIBS AND FRAMEWORK)
@@ -26,6 +24,6 @@ if(INSTALL_LIBS)
 		install(
 			FILES btBulletCollisionCommon.h btBulletDynamicsCommon.h
 			DESTINATION "${INCLUDE_INSTALL_DIR}"
-			)
+		)
 	endif()
 endif()

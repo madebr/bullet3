@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(LinearMath_SRCS
 	btAlignedAllocator.cpp
 	btConvexHull.cpp
@@ -43,7 +41,15 @@ set(LinearMath_HDRS
 	btVector3.h
 )
 
-add_library(LinearMath ${LinearMath_SRCS} ${LinearMath_HDRS})
+add_library(LinearMath
+	${LinearMath_HDRS}
+	${LinearMath_SRCS}
+)
+
+target_include_directories(LinearMath
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
 
 set_target_properties(LinearMath PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(LinearMath PROPERTIES SOVERSION ${BULLET_VERSION})

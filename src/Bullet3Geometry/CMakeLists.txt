@@ -1,5 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
 set(Bullet3Geometry_SRCS
 	b3ConvexHullComputer.cpp
 	b3GeometryUtil.cpp
@@ -13,9 +11,16 @@ set(Bullet3Geometry_HDRS
 )
 
 add_library(Bullet3Geometry ${Bullet3Geometry_SRCS} ${Bullet3Geometry_HDRS})
-if(BUILD_SHARED_LIBS)
- 	target_link_libraries(Bullet3Geometry Bullet3Common)
-endif()
+target_include_directories(Bullet3Geometry
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+
+target_link_libraries(Bullet3Geometry
+	PUBLIC
+		Bullet3Common
+)
+
 set_target_properties(Bullet3Geometry PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(Bullet3Geometry PROPERTIES SOVERSION ${BULLET_VERSION})
 
@@ -32,7 +37,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -40,7 +45,7 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 		endif()
 	endif()
 endif()

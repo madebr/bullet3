@@ -1,7 +1,3 @@
-include_directories("${BULLET_PHYSICS_SOURCE_DIR}/src")
-
-add_definitions(-DB3_USE_CLEW)
-
 set(Bullet3OpenCL_clew_SRCS
 	../clew/clew.c
 	BroadphaseCollision/b3GpuGridBroadphase.cpp
@@ -34,16 +30,27 @@ set(Bullet3OpenCL_clew_SRCS
 	RigidBody/b3Solver.cpp
 )
 
-set(Bullet3OpenCL_clew_HDRS
-#	${Root_HDRS}
+add_library(Bullet3OpenCL_clew ${Bullet3OpenCL_clew_SRCS} ${Bullet3OpenCL_clew_HDRS})
+
+target_compile_definitions(Bullet3OpenCL_clew
+	PUBLIC
+		"B3_USE_CLEW"
 )
 
-add_library(Bullet3OpenCL_clew ${Bullet3OpenCL_clew_SRCS} ${Bullet3OpenCL_clew_HDRS})
+target_include_directories(Bullet3OpenCL_clew
+	PUBLIC
+		"${BULLET_PHYSICS_SOURCE_DIR}/src"
+)
+
+target_link_libraries(Bullet3OpenCL_clew
+	PUBLIC
+		LinearMath
+		Bullet3Dynamics
+		${CMAKE_DL_LIBS}
+)
+
 set_target_properties(Bullet3OpenCL_clew PROPERTIES VERSION ${BULLET_VERSION})
 set_target_properties(Bullet3OpenCL_clew PROPERTIES SOVERSION ${BULLET_VERSION})
-if(BUILD_SHARED_LIBS)
- 	target_link_libraries(Bullet3OpenCL_clew LinearMath Bullet3Dynamics ${CMAKE_DL_LIBS})
-endif()
 
 if(INSTALL_LIBS)
 	if(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
@@ -65,7 +72,7 @@ if(INSTALL_LIBS)
 				RUNTIME DESTINATION bin
 				LIBRARY DESTINATION lib${LIB_SUFFIX}
 				ARCHIVE DESTINATION lib${LIB_SUFFIX}
-				)
+			)
 			install(
 				DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 				DESTINATION "${INCLUDE_INSTALL_DIR}"
@@ -73,10 +80,10 @@ if(INSTALL_LIBS)
 					PATTERN "*.h"
 					PATTERN ".svn" EXCLUDE
 					PATTERN "CMakeFiles" EXCLUDE
-				)
+			)
 #			install(FILES ../btBullet3OpenCL_clewCommon.h
 #				DESTINATION ${INCLUDE_INSTALL_DIR}/Bullet3OpenCL_clew
-#				)
+#			)
 		endif()
 	endif()
 endif()
