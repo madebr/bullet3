@@ -17,6 +17,7 @@ if(BUILD_BULLET3)
 
 		Benchmarks
 		InverseKinematics
+		RenderingExamples
 
 		ExampleBrowser
 		RobotSimulator

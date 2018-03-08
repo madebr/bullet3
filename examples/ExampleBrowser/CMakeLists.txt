@@ -219,15 +219,6 @@ set(BulletExampleBrowser_SRCS
 	../MultiThreading/b3Win32ThreadSupport.cpp
 	../MultiThreading/b3ThreadSupportInterface.cpp
 	../MultiThreading/btTaskScheduler.cpp
-	../RenderingExamples/TinyRendererSetup.cpp
-	../RenderingExamples/TimeSeriesCanvas.cpp
-	../RenderingExamples/TimeSeriesCanvas.h
-	../RenderingExamples/TimeSeriesFontData.cpp
-	../RenderingExamples/TimeSeriesFontData.h
-	../RenderingExamples/DynamicTexturedCubeDemo.cpp
-	../RenderingExamples/DynamicTexturedCubeDemo.h
-	../RenderingExamples/TinyVRGui.cpp
-	../RenderingExamples/TinyVRGui.h
 	
 	../RoboticsLearning/GripperGraspExample.cpp
 	../RoboticsLearning/GripperGraspExample.h
@@ -235,13 +226,6 @@ set(BulletExampleBrowser_SRCS
 	../RoboticsLearning/R2D2GraspExample.h
 	../RoboticsLearning/KukaGraspExample.cpp
 	../RoboticsLearning/KukaGraspExample.h
-	../RenderingExamples/CoordinateSystemDemo.cpp
-	../RenderingExamples/CoordinateSystemDemo.h
-	../RenderingExamples/RaytracerSetup.cpp
-	../RenderingExamples/RaytracerSetup.h
-	../RenderingExamples/RenderInstancingDemo.cpp
-	../RenderingExamples/RenderInstancingDemo.h
-	../RenderingExamples/TimeSeriesExample.cpp
 	../Benchmarks/landscapeData.h
 	../Benchmarks/TaruData
 	../Raycast/RaytestDemo.cpp
@@ -354,6 +338,7 @@ target_link_libraries(App_ExampleBrowser
 	PUBLIC
 		BenchmarkDemo
 		InverseKinematicsExample
+		RenderingExamples
 )
 
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/data" )
