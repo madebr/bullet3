@@ -13,6 +13,7 @@ subdirs(
 
 if(BUILD_BULLET3)
 	subdirs(
+		Benchmarks
 		InverseKinematics
 
 		ExampleBrowser

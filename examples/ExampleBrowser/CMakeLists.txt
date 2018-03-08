@@ -243,8 +243,6 @@ set(BulletExampleBrowser_SRCS
 	../RenderingExamples/RenderInstancingDemo.cpp
 	../RenderingExamples/RenderInstancingDemo.h
 	../RenderingExamples/TimeSeriesExample.cpp
-	../Benchmarks/BenchmarkDemo.cpp
-	../Benchmarks/BenchmarkDemo.h
 	../Benchmarks/landscapeData.h
 	../Benchmarks/TaruData
 	../Raycast/RaytestDemo.cpp
@@ -355,6 +353,7 @@ add_executable(App_ExampleBrowser
 
 target_link_libraries(App_ExampleBrowser
 	PUBLIC
+		BenchmarkDemo
 		InverseKinematicsExample
 )
 
