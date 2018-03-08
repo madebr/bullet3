@@ -255,6 +255,10 @@ endif()
 
 if(APPLE)
 	find_library(COCOA_LIBRARY Cocoa)
+	message(STATUS "Cocoa library: ${COCOA_LIBRARY}")
+	if(NOT COCOA_LIBRARY)
+		message(FATAL_ERROR "Could not find Cocoa library")
+	endif()
 endif()
 
 option(BUILD_BULLET3 "Set when you want to build Bullet 3" ON)
