@@ -1,17 +1,26 @@
 subdirs(
+	Utils
+	ThirdPartyLibs/BussIK
+	ThirdPartyLibs/glad
+	ThirdPartyLibs/optionalX11
+	ThirdPartyLibs/stb_image
+	StandaloneMain
+	OpenGLWindow
+
 	HelloWorld
 	BasicDemo
 )
 
 if(BUILD_BULLET3)
 	subdirs(
-		ThirdPartyLibs/BussIK
+		InverseKinematics
+
 		ExampleBrowser
 		RobotSimulator
 		SharedMemory
 		ThirdPartyLibs/Gwen
 		ThirdPartyLibs/clsocket
-		OpenGLWindow TwoJoint
+		TwoJoint
 	)
 endif()
 
