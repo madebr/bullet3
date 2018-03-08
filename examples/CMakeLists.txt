@@ -13,6 +13,8 @@ subdirs(
 
 if(BUILD_BULLET3)
 	subdirs(
+		ExampleBrowser/GwenGUISupport
+
 		Benchmarks
 		InverseKinematics
 

@@ -4,9 +4,6 @@ include_directories(
 	"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs"
 )
 
-file(GLOB GwenGUISupport_SRCS "GwenGUISupport/*")
-file(GLOB GwenGUISupport_HDRS "GwenGUISupport/*")
-
 if(WIN32)
 	include_directories(
 		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad"
@@ -37,8 +34,10 @@ add_library(BulletExampleBrowserLib
 	../Utils/b3ResourcePath.h
 	../Utils/b3ERPCFMHelper.hpp
 	../Utils/b3ReferenceFrameHelper.hpp
-	${GwenGUISupport_SRCS}
-	${GwenGUISupport_HDRS}
+)
+
+target_link_libraries(BulletExampleBrowserLib
+	gwenGUISupport
 )
 
 set_target_properties(BulletExampleBrowserLib PROPERTIES VERSION ${BULLET_VERSION})
