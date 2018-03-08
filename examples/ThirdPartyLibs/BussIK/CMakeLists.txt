@@ -1,7 +1,3 @@
-include_directories(
-	.
-)
-
 set(BussIK_SRCS
 	Jacobian.cpp
 	LinearR2.cpp
@@ -27,7 +23,12 @@ set(BussIK_HDRS
 	VectorRn.h
 )
 
-add_library(BussIK
-	${BussIK_SRCS}
+add_library(BussIK EXCLUDE_FROM_ALL
 	${BussIK_HDRS}
+	${BussIK_SRCS}
+)
+
+target_include_directories(BussIK
+	PUBLIC
+		"${CMAKE_CURRENT_LIST_DIR}/.."
 )
