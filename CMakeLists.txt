@@ -317,6 +317,12 @@ if(BUILD_PYBULLET)
 
 endif()
 
+if(BUILD_SHARED_LIBS)
+	set(PIC_DEFAULT 1)
+else()
+	set(PIC_DEFAULT 0)
+endif()
+
 set(OPENGL3_DEMOS_DEFAULT ON)
 if(APPLE)
 	message("Mac OSX Version is ${_CURRENT_OSX_VERSION}")
