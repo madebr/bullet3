@@ -1,11 +1,4 @@
-include_directories(
-	..
-	../ThirdPartyLibs
-	../../src
-	../ThirdPartyLibs/glad
-)
-
-file(GLOB OpenGLWindow_HDRS
+set(OpenGLWindow_HDRS
 	EGLOpenGLWindow.h
 	fontstash.h
 	GLFWOpenGLWindow.h
@@ -68,63 +61,71 @@ set(OpenGLWindowCommon_CPP
 	TwFonts.cpp
 )
 
+add_library(OpenGLWindow
+	${OpenGLWindow_HDRS}
+	${OpenGLWindowCommon_CPP}
+)
+
 if(WIN32)
-	set(OpenGLWindow_SRCS
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad/glad.c"
-		${OpenGLWindowWin32_CPP}
-		${OpenGLWindowCommon_CPP}
-	)
-	include_directories(
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad"
+	target_sources(OpenGLWindow
+		PRIVATE
+			${OpenGLWindowWin32_CPP}
 	)
 	add_definitions(-DGLEW_STATIC)
-endif()
-
-if(APPLE)
-	set(OpenGLWindow_SRCS
-		${OpenGLWindowMac_CPP}
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad/glad.c"
-		${OpenGLWindowMacObjC_CPP}
-		${OpenGLWindowCommon_CPP}
+elseif(APPLE)
+	target_sources(OpenGLWindow
+		PRIVATE
+			${OpenGLWindowMac_CPP}
+			${OpenGLWindowMacObjC_CPP}
+	)
+else()
+	#no Linux detection?
+	target_sources(OpenGLWindow
+		PRIVATE
+			${OpenGLWindowLinux_CPP}
+	)
+	target_compile_definitions(OpenGLWindow
+		PUBLIC
+			"GLEW_STATIC"
+			"GLEW_INIT_OPENGL11_FUNCTIONS=1"
+			"GLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1"
+			"DYNAMIC_LOAD_X11_FUNCTIONS=1"
+	)
+	target_link_libraries(OpenGLWindow
+		PUBLIC
+			glad_glx
 	)
 endif()
 
-#no Linux detection?
-if(NOT WIN32 AND NOT APPLE)
-	include_directories(
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad"
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/optionalX11"
-	)
-	add_definitions(-DGLEW_STATIC)
-	add_definitions("-DGLEW_INIT_OPENGL11_FUNCTIONS=1")
-       	add_definitions("-DGLEW_DYNAMIC_LOAD_ALL_GLX_FUNCTIONS=1")
-	add_definitions("-DDYNAMIC_LOAD_X11_FUNCTIONS=1")
-	set(OpenGLWindow_SRCS
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad/glad_glx.c"
-		"${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad/glad.c"
-		${OpenGLWindowLinux_CPP}
-		${OpenGLWindowCommon_CPP}
-	)
-endif()
-
-
-add_library(OpenGLWindow ${OpenGLWindow_SRCS} ${OpenGLWindow_HDRS})
+target_link_libraries(OpenGLWindow
+	PUBLIC
+		Bullet3Common
+		glad
+		stb_image
+)
 
 if(UNIX AND NOT APPLE)
-	target_link_libraries(OpenGLWindow ${DL})
+	target_link_libraries(OpenGLWindow
+		PUBLIC
+			${DL}
+	)
 elseif(APPLE)
-	target_link_libraries(OpenGLWindow ${COCOA_LIBRARY})
+	target_link_libraries(OpenGLWindow
+		PUBLIC
+			${COCOA_LIBRARY}
+	)
 endif()
 
-if(BUILD_SHARED_LIBS)
-	target_link_libraries(OpenGLWindow Bullet3Common)
-	if (WIN32 OR APPLE)
-		target_link_libraries(OpenGLWindow ${OPENGL_gl_LIBRARY})
-	else()
-		set (CMAKE_THREAD_PREFER_PTHREAD TRUE)
-		find_package(Threads REQUIRED)
-		target_link_libraries(OpenGLWindow ${CMAKE_THREAD_LIBS_INIT})
-	endif()
+if (WIN32 OR APPLE)
+	target_link_libraries(OpenGLWindow
+		PUBLIC
+			${OPENGL_gl_LIBRARY}
+	)
+else()
+	set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+	find_package(Threads REQUIRED)
+	target_link_libraries(OpenGLWindow
+		PUBLIC
+			${CMAKE_THREAD_LIBS_INIT}
+	)
 endif()
-
-#target_link_libraries(OpenGLWindow ${OPENGL_gl_LIBRARY})
