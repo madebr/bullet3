@@ -191,15 +191,6 @@ set(BulletExampleBrowser_SRCS
 	../Evolution/NN3DWalkersTimeWarpBase.h
 	../ExtendedTutorials/NewtonsRopeCradle.cpp
 	../ExtendedTutorials/NewtonsRopeCradle.h
-	../Collision/CollisionSdkC_Api.cpp
-	../Collision/CollisionSdkC_Api.h
-	../Collision/CollisionTutorialBullet2.cpp
-	../Collision/CollisionTutorialBullet2.h
-	../Collision/Internal/Bullet2CollisionSdk.cpp
-	../Collision/Internal/Bullet2CollisionSdk.h
-	../Collision/Internal/CollisionSdkInterface.h
-	../Collision/Internal/RealTimeBullet3CollisionSdk.cpp
-	../Collision/Internal/RealTimeBullet3CollisionSdk.h
 	../GyroscopicDemo/GyroscopicSetup.cpp
 	../GyroscopicDemo/GyroscopicSetup.h
 	../Planar2D/Planar2D.cpp
@@ -337,6 +328,7 @@ add_executable(App_ExampleBrowser
 target_link_libraries(App_ExampleBrowser
 	PUBLIC
 		BenchmarkDemo
+		CollisionTutorialBullet2
 		InverseKinematicsExample
 		RenderingExamples
 )
