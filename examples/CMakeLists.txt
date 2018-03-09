@@ -19,6 +19,7 @@ if(BUILD_BULLET3)
 		Constraints
 		Collision
 		DynamicControlDemo
+		Evolution
 		InverseKinematics
 		RenderingExamples
 

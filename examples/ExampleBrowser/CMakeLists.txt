@@ -186,9 +186,6 @@ set(BulletExampleBrowser_SRCS
 	../Tutorial/Tutorial.h
 	../Tutorial/Dof6ConstraintTutorial.cpp
 	../Tutorial/Dof6ConstraintTutorial.h
-	../Evolution/NN3DWalkers.cpp
-	../Evolution/NN3DWalkers.h
-	../Evolution/NN3DWalkersTimeWarpBase.h
 	../ExtendedTutorials/NewtonsRopeCradle.cpp
 	../ExtendedTutorials/NewtonsRopeCradle.h
 	../GyroscopicDemo/GyroscopicSetup.cpp
@@ -321,6 +318,7 @@ target_link_libraries(App_ExampleBrowser
 		ConstraintsDemo
 		CollisionTutorialBullet2
 		DynamicControlDemo
+		EvolutionDemo
 		InverseKinematicsExample
 		RenderingExamples
 )
