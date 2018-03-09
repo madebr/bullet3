@@ -286,6 +286,7 @@ target_link_libraries(App_ExampleBrowser
 		ExtendedTutorials
 		ForkLiftDemo
 		FractureDemo
+		GyroscopicSetup
 		ImplicitClothExperiment
 		InverseKinematicsExample
 		RenderingExamples
