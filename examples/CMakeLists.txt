@@ -23,6 +23,7 @@ if(BUILD_BULLET3)
 		Experiments
 		ExtendedTutorials
 		ForkLift
+		FractureDemo
 		InverseKinematics
 		RenderingExamples
 

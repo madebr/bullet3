@@ -165,12 +165,6 @@ set(BulletExampleBrowser_SRCS
 	../Planar2D/Planar2D.h
 	../RollingFrictionDemo/RollingFrictionDemo.cpp
 	../RollingFrictionDemo/RollingFrictionDemo.h
-	../FractureDemo/FractureDemo.cpp
-	../FractureDemo/btFractureBody.cpp
-	../FractureDemo/btFractureDynamicsWorld.cpp
-	../FractureDemo/FractureDemo.h
-	../FractureDemo/btFractureBody.h
-	../FractureDemo/btFractureDynamicsWorld.h
 	../MultiThreading/MultiThreadingExample.cpp
 	../MultiThreading/b3PosixThreadSupport.cpp
 	../MultiThreading/b3Win32ThreadSupport.cpp
@@ -291,6 +285,7 @@ target_link_libraries(App_ExampleBrowser
 		EvolutionDemo
 		ExtendedTutorials
 		ForkLiftDemo
+		FractureDemo
 		ImplicitClothExperiment
 		InverseKinematicsExample
 		RenderingExamples
