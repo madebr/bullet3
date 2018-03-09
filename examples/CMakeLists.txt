@@ -18,6 +18,7 @@ if(BUILD_BULLET3)
 		Benchmarks
 		Constraints
 		Collision
+		DynamicControlDemo
 		InverseKinematics
 		RenderingExamples
 

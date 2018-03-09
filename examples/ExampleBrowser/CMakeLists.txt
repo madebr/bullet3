@@ -203,8 +203,6 @@ set(BulletExampleBrowser_SRCS
 	../FractureDemo/FractureDemo.h
 	../FractureDemo/btFractureBody.h
 	../FractureDemo/btFractureDynamicsWorld.h
-	../DynamicControlDemo/MotorDemo.cpp
-	../DynamicControlDemo/MotorDemo.h
 	../MultiThreading/MultiThreadingExample.cpp
 	../MultiThreading/b3PosixThreadSupport.cpp
 	../MultiThreading/b3Win32ThreadSupport.cpp
@@ -322,6 +320,7 @@ target_link_libraries(App_ExampleBrowser
 		BenchmarkDemo
 		ConstraintsDemo
 		CollisionTutorialBullet2
+		DynamicControlDemo
 		InverseKinematicsExample
 		RenderingExamples
 )
