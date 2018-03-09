@@ -107,31 +107,6 @@ else()
 	endif()
 endif()
 
-set(ExtendedTutorialsSources
-	../ExtendedTutorials/Chain.cpp
-	../ExtendedTutorials/Chain.h
-	../ExtendedTutorials/Bridge.cpp
-	../ExtendedTutorials/Bridge.h
-	../ExtendedTutorials/RigidBodyFromObj.cpp
-	../ExtendedTutorials/RigidBodyFromObj.h
-	../ExtendedTutorials/SimpleBox.cpp
-	../ExtendedTutorials/SimpleBox.h
-	../ExtendedTutorials/MultipleBoxes.cpp
-	../ExtendedTutorials/MultipleBoxes.h
-	../ExtendedTutorials/CompoundBoxes.cpp
-	../ExtendedTutorials/CompoundBoxes.h
-	../ExtendedTutorials/SimpleCloth.cpp
-	../ExtendedTutorials/SimpleCloth.h
-	../ExtendedTutorials/SimpleJoint.cpp
-	../ExtendedTutorials/SimpleJoint.h
-	../ExtendedTutorials/NewtonsCradle.cpp
-	../ExtendedTutorials/NewtonsCradle.h
-	../ExtendedTutorials/InclinedPlane.cpp
-	../ExtendedTutorials/InclinedPlane.h
-	../ExtendedTutorials/MultiPendulum.cpp
-	../ExtendedTutorials/MultiPendulum.h
-)
-
 set(BulletExampleBrowser_SRCS
 	../TinyRenderer/geometry.cpp
 	../TinyRenderer/model.cpp
@@ -186,8 +161,6 @@ set(BulletExampleBrowser_SRCS
 	../Tutorial/Tutorial.h
 	../Tutorial/Dof6ConstraintTutorial.cpp
 	../Tutorial/Dof6ConstraintTutorial.h
-	../ExtendedTutorials/NewtonsRopeCradle.cpp
-	../ExtendedTutorials/NewtonsRopeCradle.h
 	../GyroscopicDemo/GyroscopicSetup.cpp
 	../GyroscopicDemo/GyroscopicSetup.h
 	../Planar2D/Planar2D.cpp
@@ -308,7 +281,6 @@ add_executable(App_ExampleBrowser
 	main.cpp
 	ExampleEntries.cpp
 	ExampleEntries.h
-	${ExtendedTutorialsSources}
 	${BulletExampleBrowser_SRCS}
 )
 
@@ -319,6 +291,7 @@ target_link_libraries(App_ExampleBrowser
 		CollisionTutorialBullet2
 		DynamicControlDemo
 		EvolutionDemo
+		ExtendedTutorials
 		ImplicitClothExperiment
 		InverseKinematicsExample
 		RenderingExamples

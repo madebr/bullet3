@@ -21,6 +21,7 @@ if(BUILD_BULLET3)
 		DynamicControlDemo
 		Evolution
 		Experiments
+		ExtendedTutorials
 		InverseKinematics
 		RenderingExamples
 
