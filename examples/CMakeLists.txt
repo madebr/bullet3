@@ -16,6 +16,7 @@ if(BUILD_BULLET3)
 		ExampleBrowser/GwenGUISupport
 
 		Benchmarks
+		Constraints
 		Collision
 		InverseKinematics
 		RenderingExamples

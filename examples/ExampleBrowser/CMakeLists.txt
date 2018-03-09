@@ -290,14 +290,6 @@ set(BulletExampleBrowser_SRCS
 	../MultiBody/MultiDofDemo.cpp
 	../MultiBody/MultiDofDemo.h
 	../RigidBody/RigidBodySoftContact.cpp
-	../Constraints/TestHingeTorque.cpp
-	../Constraints/TestHingeTorque.h
-	../Constraints/ConstraintDemo.cpp
-	../Constraints/ConstraintDemo.h
-	../Constraints/Dof6Spring2Setup.cpp
-	../Constraints/Dof6Spring2Setup.h
-	../Constraints/ConstraintPhysicsSetup.cpp
-	../Constraints/ConstraintPhysicsSetup.h
 
 
 	../ThirdPartyLibs/stb_image/stb_image.cpp
@@ -328,6 +320,7 @@ add_executable(App_ExampleBrowser
 target_link_libraries(App_ExampleBrowser
 	PUBLIC
 		BenchmarkDemo
+		ConstraintsDemo
 		CollisionTutorialBullet2
 		InverseKinematicsExample
 		RenderingExamples
