@@ -33,6 +33,7 @@ if(BUILD_BULLET3)
 		SharedMemory
 		ThirdPartyLibs/Gwen
 		ThirdPartyLibs/clsocket
+		ThirdPartyLibs/Wavefront
 		TwoJoint
 	)
 endif()
