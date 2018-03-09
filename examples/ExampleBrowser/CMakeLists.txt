@@ -319,6 +319,7 @@ target_link_libraries(App_ExampleBrowser
 		CollisionTutorialBullet2
 		DynamicControlDemo
 		EvolutionDemo
+		ImplicitClothExperiment
 		InverseKinematicsExample
 		RenderingExamples
 )

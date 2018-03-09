@@ -20,6 +20,7 @@ if(BUILD_BULLET3)
 		Collision
 		DynamicControlDemo
 		Evolution
+		Experiments
 		InverseKinematics
 		RenderingExamples
 
