@@ -151,8 +151,6 @@ set(BulletExampleBrowser_SRCS
 	../BasicDemo/BasicExample.h
 	../InverseDynamics/InverseDynamicsExample.cpp
 	../InverseDynamics/InverseDynamicsExample.h
-	../ForkLift/ForkLiftDemo.cpp
-	../ForkLift/ForkLiftDemo.h
 	../MultiThreadedDemo/MultiThreadedDemo.cpp
 	../MultiThreadedDemo/MultiThreadedDemo.h
 	../MultiThreadedDemo/CommonRigidBodyMTBase.cpp
@@ -292,6 +290,7 @@ target_link_libraries(App_ExampleBrowser
 		DynamicControlDemo
 		EvolutionDemo
 		ExtendedTutorials
+		ForkLiftDemo
 		ImplicitClothExperiment
 		InverseKinematicsExample
 		RenderingExamples

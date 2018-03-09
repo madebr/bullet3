@@ -22,6 +22,7 @@ if(BUILD_BULLET3)
 		Evolution
 		Experiments
 		ExtendedTutorials
+		ForkLift
 		InverseKinematics
 		RenderingExamples
 
