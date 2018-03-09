@@ -25,6 +25,7 @@ if(BUILD_BULLET3)
 		ForkLift
 		FractureDemo
 		GyroscopicDemo
+		Importers
 		InverseKinematics
 		RenderingExamples
 

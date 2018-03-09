@@ -180,11 +180,6 @@ set(BulletExampleBrowser_SRCS
 	../Benchmarks/landscapeData.h
 	../Benchmarks/TaruData
 	../Raycast/RaytestDemo.cpp
-	../Importers/ImportBsp/BspConverter.h
-	../Importers/ImportBullet/SerializeSetup.cpp
-	../Importers/ImportBullet/SerializeSetup.h
-	../Importers/ImportMeshUtility/b3ImportMeshUtility.cpp
-	../Importers/ImportMeshUtility/b3ImportMeshUtility.h
 	../../Extras/Serialize/BulletWorldImporter/btWorldImporter.cpp
 	../../Extras/Serialize/BulletWorldImporter/btMultiBodyWorldImporter.cpp
 	../../Extras/Serialize/BulletWorldImporter/btBulletWorldImporter.cpp
@@ -193,47 +188,8 @@ set(BulletExampleBrowser_SRCS
 	../../Extras/Serialize/BulletFileLoader/bDNA.cpp		
 	../../Extras/Serialize/BulletFileLoader/btBulletFile.cpp
 
-	../Importers/ImportBsp/BspLoader.h
-	../Importers/ImportBsp/ImportBspExample.h
-	../Importers/ImportColladaDemo/btMatrix4x4.h
-	../Importers/ImportColladaDemo/ColladaGraphicsInstance.h
-	../Importers/ImportColladaDemo/ImportColladaSetup.h
-	../Importers/ImportColladaDemo/LoadMeshFromCollada.h
-	../Importers/ImportObjDemo/ImportObjExample.h
-	../Importers/ImportObjDemo/LoadMeshFromObj.h
-	../Importers/ImportObjDemo/Wavefront2GLInstanceGraphicsShape.h
-	../Importers/ImportSTLDemo/ImportSTLSetup.h
-	../Importers/ImportSTLDemo/LoadMeshFromSTL.h
-	../Importers/ImportURDFDemo/ConvertRigidBodies2MultiBody.h
-	../Importers/ImportURDFDemo/ImportURDFSetup.h
-	../Importers/ImportURDFDemo/URDF2Bullet.h
-	../Importers/ImportURDFDemo/urdf_samples.h
-	../Importers/ImportURDFDemo/urdf_samples.h
-	../Importers/ImportMJCFDemo/BulletMJCFImporter.cpp
-	../Importers/ImportMJCFDemo/BulletMJCFImporter.h
-	../Importers/ImportMJCFDemo/ImportMJCFSetup.cpp
-	../Importers/ImportMJCFDemo/ImportMJCFSetup.h
-	../Importers/ImportBsp/BspConverter.cpp
-	../Importers/ImportBsp/BspLoader.cpp
-	../Importers/ImportBsp/ImportBspExample.cpp
-	../Importers/ImportColladaDemo/ImportColladaSetup.cpp
-	../Importers/ImportColladaDemo/LoadMeshFromCollada.cpp
-	../Importers/ImportObjDemo/ImportObjExample.cpp
-	../Importers/ImportObjDemo/LoadMeshFromObj.cpp
-	../Importers/ImportObjDemo/Wavefront2GLInstanceGraphicsShape.cpp
-	../Importers/ImportSTLDemo/ImportSTLSetup.cpp
-	../Importers/ImportSDFDemo/ImportSDFSetup.cpp
-	../Importers/ImportURDFDemo/ImportURDFSetup.cpp
-	../Importers/ImportURDFDemo/URDF2Bullet.cpp
-	../Importers/ImportURDFDemo/MyMultiBodyCreator.cpp
-	../Importers/ImportURDFDemo/MyMultiBodyCreator.h
-	../Importers/ImportURDFDemo/UrdfParser.cpp
 	../Utils/RobotLoggingUtil.cpp
 	../Utils/RobotLoggingUtil.h
-	../Importers/ImportURDFDemo/urdfStringSplit.cpp
-	../Importers/ImportURDFDemo/urdfStringSplit.h
-	../Importers/ImportURDFDemo/BulletUrdfImporter.cpp
-	../Importers/ImportURDFDemo/BulletUrdfImporter.h
 	../VoronoiFracture/VoronoiFractureDemo.cpp
 	../VoronoiFracture/VoronoiFractureDemo.h
 	../VoronoiFracture/btConvexConvexMprAlgorithm.cpp
@@ -250,7 +206,6 @@ set(BulletExampleBrowser_SRCS
 	../MultiBody/MultiDofDemo.cpp
 	../MultiBody/MultiDofDemo.h
 	../RigidBody/RigidBodySoftContact.cpp
-
 
 	../ThirdPartyLibs/stb_image/stb_image.cpp
 	../ThirdPartyLibs/stb_image/stb_image.h
@@ -288,6 +243,7 @@ target_link_libraries(App_ExampleBrowser
 		FractureDemo
 		GyroscopicSetup
 		ImplicitClothExperiment
+		ImportersExample
 		InverseKinematicsExample
 		RenderingExamples
 )
