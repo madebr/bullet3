@@ -1,31 +1,22 @@
-###############################################################################
-PROJECT(GEN)
-FILE(GLOB cpp_SRC "*.cpp")
-FILE(GLOB h_SRC "*.h")
+SET(HEADERGENERATOR_SRC
+	apiGen.cpp
+)
 
+SET(HEADERGENERATOR_HDR
+)
 
-SET(includes
-  .
+ADD_EXECUTABLE(HeaderGenerator ${HEADERGENERATOR_SRC} ${HEADERGENERATOR_HDR})
+TARGET_LINK_LIBRARIES(HeaderGenerator BulletFileLoader LinearMath)
+TARGET_INCLUDE_DIRECTORIES(HeaderGenerator PRIVATE
 	${BULLET_PHYSICS_SOURCE_DIR}/Extras/Serialize/BulletFileLoader
 	${BULLET_PHYSICS_SOURCE_DIR}/Extras/Serialize/BlenderSerialize
-	${BULLET_PHYSICS_SOURCE_DIR}/src
 )
 
-
-LINK_LIBRARIES(
-	 BulletFileLoader  LinearMath
-)
-
-INCLUDE_DIRECTORIES(${includes})
-
-ADD_EXECUTABLE(HeaderGenerator ${cpp_SRC} ${h_SRC})
-TARGET_LINK_LIBRARIES(HeaderGenerator LinearMath)
-
-IF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
+IF(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
 	ADD_CUSTOM_COMMAND(
 		TARGET HeaderGenerator
 		POST_BUILD
-		COMMAND ${CMAKE_COMMAND} ARGS -E copy_if_different ${BULLET_PHYSICS_SOURCE_DIR}/Extras/Serialize/HeaderGenerator/createDnaString.bat ${CMAKE_CURRENT_BINARY_DIR}/createDnaString.bat
-		COMMAND ${CMAKE_COMMAND} ARGS -E copy_if_different ${BULLET_PHYSICS_SOURCE_DIR}/Extras/Serialize/HeaderGenerator/bulletGenerate.py ${CMAKE_CURRENT_BINARY_DIR}/bulletGenerate.py
+		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/createDnaString.bat" "$<TARGET_FILE_DIR:HeaderGenerator>/createDnaString.bat"
+		COMMAND "${CMAKE_COMMAND}" -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/bulletGenerate.py" "$<TARGET_FILE_DIR:HeaderGenerator>/bulletGenerate.py"
 	)
-ENDIF (NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)
+ENDIF(NOT INTERNAL_CREATE_DISTRIBUTABLE_MSVC_PROJECTFILES)

@@ -110,46 +110,6 @@ typedef intptr_t btintptr_t;
 #include <stdlib.h>
 #include <stdio.h>
 
-//#include "DNA_sdna_types.h"
-// include files for automatic dependancies
-#include "DNA_rigidbody.h"
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btQuaternion.h"
-#include "LinearMath/btMatrix3x3.h"
-#include "LinearMath/btTransform.h"
-#include "BulletCollision/BroadphaseCollision/btQuantizedBvh.h"
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
-#include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
-#include "BulletCollision/CollisionShapes/btConvexInternalShape.h"
-#include "BulletCollision/CollisionShapes/btMultiSphereShape.h"
-#include "BulletCollision/CollisionShapes/btConvexHullShape.h"
-#include "BulletCollision/CollisionShapes/btStridingMeshInterface.h"
-#include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
-#include "BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h"
-#include "BulletCollision/CollisionShapes/btCompoundShape.h"
-#include "BulletCollision/CollisionShapes/btCylinderShape.h"
-#include "BulletCollision/CollisionShapes/btConeShape.h"
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
-#include "BulletCollision/CollisionShapes/btTriangleInfoMap.h"
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
-#include "BulletCollision/Gimpact/btGImpactShape.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
-#include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h"
-#include "BulletDynamics/ConstraintSolver/btSliderConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGearConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btContactSolverInfo.h"
-#include "BulletDynamics/Dynamics/btDynamicsWorld.h"
-
-#include "BulletDynamics/Dynamics/btRigidBody.h"
-#include "BulletSoftBody/btSoftBodyData.h"
-#include "BulletDynamics/Featherstone/btMultiBody.h"
-#include "BulletDynamics/Featherstone/btMultiBodyLinkCollider.h"
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -159,50 +119,13 @@ typedef intptr_t btintptr_t;
 
 /* Included the path relative from /source/blender/ here, so we can move     */
 /* headers around with more freedom.                                         */
-char *includefiles[] = {
+const char *includefiles[] = {
 
-	// if you add files here, please add them at the end
-	// of makesdna.c (this file) as well
-	"../makesdna/DNA_rigidbody.h",
-	"../../../src/LinearMath/btVector3.h",
-	"../../../src/LinearMath/btQuaternion.h",
-	"../../../src/LinearMath/btMatrix3x3.h",
-	"../../../src/LinearMath/btTransform.h",
-	"../../../src/BulletCollision/BroadphaseCollision/btQuantizedBvh.h",
-	"../../../src/BulletCollision/CollisionShapes/btCollisionShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btStaticPlaneShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btConvexInternalShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btMultiSphereShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btStridingMeshInterface.h",
-	"../../../src/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btScaledBvhTriangleMeshShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btCompoundShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btCylinderShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btConeShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btCapsuleShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btTriangleInfoMap.h",
-	"../../../src/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h",
-	"../../../src/BulletCollision/Gimpact/btGImpactShape.h",
-	"../../../src/BulletCollision/CollisionShapes/btConvexHullShape.h",
-	"../../../src/BulletCollision/CollisionDispatch/btCollisionObject.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btContactSolverInfo.h",
-	"../../../src/BulletDynamics/Dynamics/btDynamicsWorld.h",
-	"../../../src/BulletDynamics/Dynamics/btRigidBody.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btTypedConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btHingeConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btGeneric6DofSpring2Constraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btSliderConstraint.h",
-	"../../../src/BulletDynamics/ConstraintSolver/btGearConstraint.h",
+	// List of include files is generated by build system
+#	include "sdna_includefiles.h"
 
-	"../../../src/BulletSoftBody/btSoftBodyData.h",
-	"../../../src/BulletDynamics/Featherstone/btMultiBody.h",
-	"../../../src/BulletDynamics/Featherstone/btMultiBodyLinkCollider.h",
-	// empty string to indicate end of includefiles
-	""};
+	// null pointer sentinel to indicate end of includefiles
+	NULL};
 
 void *malloc_and_setzero(int numbytes)
 {
@@ -240,7 +163,7 @@ int additional_slen_offset;
 /**
  * Add type <str> to struct indexed by <len>, if it was not yet found.
  */
-int add_type(char *str, int len);
+int add_type(const char *str, int len);
 
 /**
  * Add variable <str> to 
@@ -290,7 +213,7 @@ void printStructLenghts(void);
 
 /* ************************* MAKEN DNA ********************** */
 
-int add_type(char *str, int len)
+int add_type(const char *str, int len)
 {
 	int nr;
 	char *cp;
@@ -1074,7 +997,7 @@ int make_structDNA(char *baseDirectory, FILE *file)
 	/* little test first...                                                  */
 	/* Mind the breaking condition here!                                     */
 	if (debugSDNA) printf("\tStart of header scan:\n");
-	for (i = 0; strlen(includefiles[i]); i++)
+	for (i = 0; includefiles[i]; i++)
 	{
 		sprintf(str, "%s%s", baseDirectory, includefiles[i]);
 		if (debugSDNA) printf("\t|-- Converting %s\n", str);
@@ -1198,7 +1121,7 @@ int make_structDNA(char *baseDirectory, FILE *file)
 			else
 			{
 				// add all include files defined in the global array
-				for (i = 0; strlen(includefiles[i]); i++)
+				for (i = 0; includefiles[i]; i++)
 				{
 					fprintf(fp, "#include \"%s%s\"\n", baseDirectory, includefiles[i]);
 				}
