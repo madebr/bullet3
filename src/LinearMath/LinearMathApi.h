@@ -1,7 +1,7 @@
 #ifndef LINEARMATHAPI_H
 #define LINEARMATHAPI_H
 
-#include "Bullet3Common/b3Api.h"
+#include "bullet3Api.h"
 
 #ifdef LinearMath_EXPORTS
 #define LINEARMATH_API BULLET_EXPORT

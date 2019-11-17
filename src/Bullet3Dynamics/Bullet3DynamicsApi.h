@@ -1,7 +1,7 @@
 #ifndef BULLET3DYNAMICSAPI_H
 #define BULLET3DYNAMICSAPI_H
 
-#include "Bullet3Common/b3Api.h"
+#include "bullet3Api.h"
 
 #ifdef Bullet3Dynamics_EXPORTS
 #define BULLET3DYNAMICS_API BULLET_EXPORT

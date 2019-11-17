@@ -1,7 +1,7 @@
 #ifndef BULLET3SOFTBODYAPI_H
 #define BULLET3SOFTBODYAPI_H
 
-#include "Bullet3Common/b3Api.h"
+#include "bullet3Api.h"
 
 #ifdef BulletSoftBody_EXPORTS
 #define BULLETSOFTBODY_API BULLET_EXPORT

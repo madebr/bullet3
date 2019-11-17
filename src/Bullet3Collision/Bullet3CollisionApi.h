@@ -1,7 +1,7 @@
 #ifndef BULLET3COLLISION_H
 #define BULLET3COLLISION_H
 
-#include "Bullet3Common/b3Api.h"
+#include "bullet3Api.h"
 
 #ifdef Bullet3Collision_EXPORTS
 #define BULLET3COLLISION_API BULLET_EXPORT
