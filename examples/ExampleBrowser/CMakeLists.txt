@@ -25,24 +25,35 @@ ELSE(WIN32)
      		ENDIF(APPLE)
 ENDIF(WIN32)
 
-
-ADD_LIBRARY(BulletExampleBrowserLib
+SET(BulletExampleBrowserLib_SRCS
 	OpenGLExampleBrowser.cpp
 	OpenGLGuiHelper.cpp
 	GL_ShapeDrawer.cpp
 	CollisionShape2TriangleMesh.cpp
-	CollisionShape2TriangleMesh.h
 	../Utils/b3Clock.cpp
-	../Utils/b3Clock.h
 	../Utils/ChromeTraceUtil.cpp
-	../Utils/ChromeTraceUtil.h
 	../Utils/b3ResourcePath.cpp
+)
+SET(BulletExampleBrowserLib_HDRS
+	CollisionShape2TriangleMesh.h
+	../Utils/b3Clock.h
+	../Utils/ChromeTraceUtil.h
 	../Utils/b3ResourcePath.h
 	../Utils/b3ERPCFMHelper.hpp
 	../Utils/b3ReferenceFrameHelper.hpp
+)
+
+IF(ENABLE_LUA)
+	# FIXME: use target
+	#LIST(APPEND BulletExampleBrowserLib_SRCS ../LuaDemo/LuaPhysicsSetup.cpp)
+	LIST(APPEND BulletExampleBrowserLib_HDRS ../LuaDemo/LuaPhysicsSetup.h)
+ENDIF()
+
+ADD_LIBRARY(BulletExampleBrowserLib
 	${GwenGUISupport_SRCS}
 	${GwenGUISupport_HDRS}
-
+	${BulletExampleBrowserLib_SRCS}
+	${BulletExampleBrowserLib_HDRS}
 )
 
 SET_TARGET_PROPERTIES(BulletExampleBrowserLib PROPERTIES VERSION ${BULLET_VERSION})
@@ -68,6 +79,10 @@ ELSE(WIN32)
 		)
 	ENDIF(APPLE)
 ENDIF(WIN32)
+
+IF(ENABLE_LUA)
+	TARGET_LINK_LIBRARIES(BulletExampleBrowserLib lua)
+ENDIF()
 
 INSTALL(TARGETS BulletExampleBrowserLib
         RUNTIME DESTINATION ${BULLET_INSTALL_BINDIR}

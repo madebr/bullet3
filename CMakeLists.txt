@@ -375,6 +375,8 @@ ENDIF()
 
 OPTION(BUILD_BULLET2_DEMOS "Set when you want to build the Bullet 2 demos" ON)
 IF(BUILD_BULLET2_DEMOS)
+	OPTION(ENABLE_LUA "Enable Lua scripting support in Example Browser" OFF)
+
 	IF(EXISTS ${BULLET_PHYSICS_SOURCE_DIR}/examples AND IS_DIRECTORY ${BULLET_PHYSICS_SOURCE_DIR}/examples)
 		SUBDIRS(examples)
 	ENDIF()
