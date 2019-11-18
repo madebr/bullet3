@@ -8,7 +8,7 @@
 
 include_directories(src)
 
-SET(CLSOCKET_HEADERS
+SET(CLSOCKET_HDRS
 src/ActiveSocket.h
 src/Host.h
 src/PassiveSocket.h
@@ -16,16 +16,16 @@ src/SimpleSocket.h
 src/StatTimer.h
 )
 
-SET(CLSOCKET_SOURCES
+SET(CLSOCKET_SRCS
 src/SimpleSocket.cpp
 src/ActiveSocket.cpp
 src/PassiveSocket.cpp
 )
 
 # mark headers as headers...
-SET_SOURCE_FILES_PROPERTIES( ${CLSOCKET_HEADERS} PROPERTIES HEADER_FILE_ONLY TRUE )
+SET_SOURCE_FILES_PROPERTIES( ${CLSOCKET_HDRS} PROPERTIES HEADER_FILE_ONLY TRUE )
 # append to sources so that dependency checks work on headers
-LIST(APPEND CLSOCKET_SOURCES ${CLSOCKET_HEADERS})
+LIST(APPEND CLSOCKET_SRCS ${CLSOCKET_HDRS})
 
 # OS and compiler checks. 
 if(UNIX)
@@ -51,15 +51,15 @@ OPTION(CLSOCKET_DEP_ONLY "Build for use inside other CMake projects as dependenc
 # make the lib
 if(CLSOCKET_SHARED)
     if(CLSOCKET_DEP_ONLY)
-        ADD_LIBRARY(clsocket SHARED EXCLUDE_FROM_ALL ${CLSOCKET_SOURCES})
+        ADD_LIBRARY(clsocket SHARED EXCLUDE_FROM_ALL ${CLSOCKET_SRCS})
     else()
-        ADD_LIBRARY(clsocket SHARED ${CLSOCKET_SOURCES})
+        ADD_LIBRARY(clsocket SHARED ${CLSOCKET_SRCS})
     endif()
 else()
     if(CLSOCKET_DEP_ONLY)
-        ADD_LIBRARY(clsocket STATIC EXCLUDE_FROM_ALL ${CLSOCKET_SOURCES})
+        ADD_LIBRARY(clsocket STATIC EXCLUDE_FROM_ALL ${CLSOCKET_SRCS})
     else()
-        ADD_LIBRARY(clsocket STATIC ${CLSOCKET_SOURCES})
+        ADD_LIBRARY(clsocket STATIC ${CLSOCKET_SRCS})
     endif()
 endif()
 TARGET_LINK_LIBRARIES(clsocket ${PROJECT_LIBS})

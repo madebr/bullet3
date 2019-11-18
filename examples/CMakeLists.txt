@@ -3,11 +3,13 @@ if(MSVC)
 	set(BUILD_SHARED_LIBS OFF)
 endif()
 
-SUBDIRS( HelloWorld BasicDemo)
+SUBDIRS(HelloWorld BasicDemo)
 IF(BUILD_BULLET3)
-	SUBDIRS( ExampleBrowser RobotSimulator SharedMemory ThirdPartyLibs/Gwen ThirdPartyLibs/BussIK ThirdPartyLibs/clsocket OpenGLWindow TwoJoint )
+	SUBDIRS( ExampleBrowser RobotSimulator SharedMemory ThirdPartyLibs/clsocket OpenGLWindow TwoJoint )
 ENDIF()
+
+SUBDIRS(ThirdPartyLibs)
 
 IF(BUILD_PYBULLET)
 	SUBDIRS(pybullet)
-ENDIF(BUILD_PYBULLET)
+ENDIF()
