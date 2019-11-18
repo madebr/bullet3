@@ -185,12 +185,12 @@ int preprocess_include(char *maindata, int len);
 /**
  * Scan this file for serializable types.
  */
-int convert_include(char *filename);
+int convert_include(const char *filename);
 
 /**
  * Determine how many bytes are needed for an array.
  */
-int arraysize(char *astr, int len);
+int arraysize(const char *astr, int len);
 
 /**
  * Determine how many bytes are needed for each struct.
@@ -494,7 +494,7 @@ int preprocess_include(char *maindata, int len)
 	return newlen;
 }
 
-static void *read_file_data(char *filename, int *len_r)
+static void *read_file_data(const char *filename, int *len_r)
 {
 #ifdef WIN32
 	FILE *fp = fopen(filename, "rb");
@@ -557,7 +557,7 @@ int skipStruct(const char *structType)
 	return 0;
 }
 
-int convert_include(char *filename)
+int convert_include(const char *filename)
 {
 	/* read include file, skip structs with a '#' before it.
 	   store all data in temporal arrays.
@@ -703,7 +703,7 @@ int convert_include(char *filename)
 	return 0;
 }
 
-int arraysize(char *astr, int len)
+int arraysize(const char *astr, int len)
 {
 	int a, mul = 1;
 	char str[100], *cp = 0;
@@ -904,19 +904,24 @@ static int calculate_structlens(int firststruct)
 	return (dna_error);
 }
 
-#define MAX_DNA_LINE_LENGTH 20
+#define MAX_DNA_LINE_LENGTH 16
 
 void dna_write(FILE *file, void *pntr, int size)
 {
 	static int linelength = 0;
 	int i;
-	char *data;
+	unsigned char *data;
 
-	data = (char *)pntr;
+	data = (unsigned char *)pntr;
 
 	for (i = 0; i < size; i++)
 	{
-		fprintf(file, "char(%d),", data[i]);
+		if (linelength == 0) {
+			fprintf(file, "\t");
+		} else {
+			fprintf(file, " ");
+		}
+		fprintf(file, "0x%02x,", data[i]);
 		linelength++;
 		if (linelength >= MAX_DNA_LINE_LENGTH)
 		{
@@ -1238,13 +1243,15 @@ int main(int argc, char **argv)
 				strcpy(baseDirectory, BASE_HEADER);
 			}
 
+			fprintf(file, "#include \"btSerializer.h\"\n\n");
+
 			if (sizeof(void *) == 8)
 			{
-				fprintf(file, "char sBulletDNAstr64[]= {\n");
+				fprintf(file, "unsigned const char sBulletDNAstr64[] = {\n");
 			}
 			else
 			{
-				fprintf(file, "char sBulletDNAstr[]= {\n");
+				fprintf(file, "unsigned const char sBulletDNAstr[] = {\n");
 			}
 
 			if (make_structDNA(baseDirectory, file))
@@ -1256,14 +1263,14 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				fprintf(file, "};\n");
+				fprintf(file, "\n};\n\n");
 				if (sizeof(void *) == 8)
 				{
-					fprintf(file, "int sBulletDNAlen64= sizeof(sBulletDNAstr64);\n");
+					fprintf(file, "const int sBulletDNAlen64 = sizeof(sBulletDNAstr64);\n");
 				}
 				else
 				{
-					fprintf(file, "int sBulletDNAlen= sizeof(sBulletDNAstr);\n");
+					fprintf(file, "const int sBulletDNAlen = sizeof(sBulletDNAstr);\n");
 				}
 
 				fclose(file);

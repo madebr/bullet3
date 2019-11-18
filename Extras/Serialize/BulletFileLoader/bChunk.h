@@ -60,7 +60,7 @@ class bChunkInd
 public:
 	bChunkInd() {}
 	int code, len;
-	void *oldPtr;
+	const void *oldPtr;
 	int dna_nr, nr;
 };
 

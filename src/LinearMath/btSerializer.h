@@ -25,10 +25,10 @@ subject to the following restrictions:
 #endif
 #include <string.h>
 
-LINEARMATH_API extern char sBulletDNAstr[];
-LINEARMATH_API extern int sBulletDNAlen;
-LINEARMATH_API extern char sBulletDNAstr64[];
-LINEARMATH_API extern int sBulletDNAlen64;
+LINEARMATH_API extern const unsigned char sBulletDNAstr[];
+LINEARMATH_API extern const int sBulletDNAlen;
+LINEARMATH_API extern const unsigned char sBulletDNAstr64[];
+LINEARMATH_API extern const int sBulletDNAlen64;
 
 SIMD_FORCE_INLINE int btStrLen(const char* str)
 {

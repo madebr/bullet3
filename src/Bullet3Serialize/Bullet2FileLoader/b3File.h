@@ -85,7 +85,7 @@ protected:
 	void resolvePointersMismatch();
 	void resolvePointersChunk(const bChunkInd &dataChunk, int verboseMode);
 
-	int resolvePointersStructRecursive(char *strcPtr, int old_dna, int verboseMode, int recursion);
+	int resolvePointersStructRecursive(const char *strcPtr, int old_dna, int verboseMode, int recursion);
 	//void swapPtr(char *dst, char *src);
 
 	void parseStruct(char *strcPtr, char *dtPtr, int old_dna, int new_dna, bool fixupPointers);
@@ -128,7 +128,7 @@ public:
 		return mLibPointers;
 	}
 
-	void *findLibPointer(void *ptr);
+	void *findLibPointer(const void *ptr);
 
 	bool ok();
 

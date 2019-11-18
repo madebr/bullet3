@@ -34,7 +34,7 @@ public:
 	bDNA();
 	~bDNA();
 
-	void init(char *data, int len, bool swap = false);
+	void init(const char *data, int len, bool swap = false);
 
 	int getArraySize(char *str);
 	int getArraySizeNew(short name)

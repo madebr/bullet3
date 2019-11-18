@@ -781,7 +781,7 @@ void bFile::parseStruct(char *strcPtr, char *dtPtr, int old_dna, int new_dna, bo
 }
 
 // ----------------------------------------------------- //
-static void getElement(int arrayLen, const char *cur, const char *old, char *oldPtr, char *curData)
+static void getElement(int arrayLen, const char *cur, const char *old, const char *oldPtr, const char *curData)
 {
 #define b3GetEle(value, current, type, cast, size, ptr) \
 	if (strcmp(current, type) == 0)                     \
@@ -1138,7 +1138,7 @@ void bFile::resolvePointersChunk(const bChunkInd &dataChunk, int verboseMode)
 	short oldLen = fileDna->getLength(oldStruct[0]);
 	//char* structType = fileDna->getType(oldStruct[0]);
 
-	char *cur = (char *)findLibPointer(dataChunk.oldPtr);
+	const char *cur = (const char *)findLibPointer(dataChunk.oldPtr);
 	for (int block = 0; block < dataChunk.nr; block++)
 	{
 		resolvePointersStructRecursive(cur, dataChunk.dna_nr, verboseMode, 1);
@@ -1146,7 +1146,7 @@ void bFile::resolvePointersChunk(const bChunkInd &dataChunk, int verboseMode)
 	}
 }
 
-int bFile::resolvePointersStructRecursive(char *strcPtr, int dna_nr, int verboseMode, int recursion)
+int bFile::resolvePointersStructRecursive(const char *strcPtr, int dna_nr, int verboseMode, int recursion)
 {
 	bParse::bDNA *fileDna = mFileDNA ? mFileDNA : mMemoryDNA;
 
@@ -1154,7 +1154,7 @@ int bFile::resolvePointersStructRecursive(char *strcPtr, int dna_nr, int verbose
 	char *memName;
 	short firstStructType = fileDna->getStruct(0)[0];
 
-	char *elemPtr = strcPtr;
+	const char *elemPtr = strcPtr;
 
 	short int *oldStruct = fileDna->getStruct(dna_nr);
 
@@ -1292,7 +1292,7 @@ int bFile::resolvePointersStructRecursive(char *strcPtr, int dna_nr, int verbose
 							const char *newtype = "int";
 							int dbarray[MAX_ARRAY_LENGTH];
 							int *dbPtr = 0;
-							char *tmp = elemPtr;
+							const char *tmp = elemPtr;
 							dbPtr = &dbarray[0];
 							if (dbPtr)
 							{
@@ -1317,7 +1317,7 @@ int bFile::resolvePointersStructRecursive(char *strcPtr, int dna_nr, int verbose
 							const char *newtype = "double";
 							double dbarray[MAX_ARRAY_LENGTH];
 							double *dbPtr = 0;
-							char *tmp = elemPtr;
+							const char *tmp = elemPtr;
 							dbPtr = &dbarray[0];
 							if (dbPtr)
 							{
@@ -1404,7 +1404,7 @@ void bFile::resolvePointers(int verboseMode)
 }
 
 // ----------------------------------------------------- //
-void *bFile::findLibPointer(void *ptr)
+void *bFile::findLibPointer(const void *ptr)
 {
 	bStructHandle **ptrptr = getLibPointers().find(ptr);
 	if (ptrptr)

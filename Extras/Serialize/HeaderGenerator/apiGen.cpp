@@ -261,15 +261,15 @@ int main(int argc, char **argv)
 #else
 	isBulletFile = true;
 	bool swap = false;
-	char *memBuf = sBulletDNAstr;
+	const char *memBuf = (const char*)sBulletDNAstr;
 	int len = sBulletDNAlen;
 #endif
 
-	char *blenderData = memBuf;
+	const char *blenderData = memBuf;
 	int sdnaPos = 0;
 	int mDataStart = 12;
 
-	char *tempBuffer = blenderData;
+	const char *tempBuffer = blenderData;
 	for (int i = 0; i < len; i++)
 	{
 		// looking for the data's starting position
